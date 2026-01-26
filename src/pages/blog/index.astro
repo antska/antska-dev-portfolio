@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { PAGE_TITLES, META_DESCRIPTIONS } from "../../lib/constants";
+import { getCollection } from "astro:content";
+
+// Fetch posts from Content Collections
+const posts = (await getCollection("blog")).sort((a, b) => {
+  const dateA =
+    typeof a.data.publishedAt === "string"
+      ? new Date(a.data.publishedAt)
+      : a.data.publishedAt;
+  const dateB =
+    typeof b.data.publishedAt === "string"
+      ? new Date(b.data.publishedAt)
+      : b.data.publishedAt;
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Format date for display
+const formatDate = (dateString: string | Date): string => {
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+};
+---
+
+<Layout title={PAGE_TITLES.blog} description={META_DESCRIPTIONS.blog}>
+  <Header />
+  <main>
+    <section class="min-h-screen py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <div class="flex items-center justify-center gap-4 mb-16">
+          <svg
+            class="w-12 h-12"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+          </svg>
+          <h1
+            class="text-5xl md:text-6xl font-display font-black text-center uppercase"
+          >
+            <span
+              class="bg-neutral-900 text-white border-4 border-black px-6 py-2 inline-block shadow-brutal-md transform -rotate-1"
+            >
+              Technical Blog
+            </span>
+          </h1>
+        </div>
+
+        <div class="grid gap-8">
+          {
+            posts.map((post) => {
+              const displayDate = formatDate(post.data.publishedAt);
+              const slug =
+                post.data.slug ??
+                post.id.split("/").pop()?.replace(/\.md$/, "") ??
+                "";
+              return (
+                <article class="bg-neutral-50 border-4 border-black p-8 shadow-brutal-lg hover:shadow-brutal-xl transition-all cursor-pointer group">
+                  <a
+                    href={`/blog/${slug}`}
+                    class="block"
+                    tabindex="0"
+                    aria-label={`Read article: ${post.data.title}`}
+                  >
+                    <div class="flex flex-wrap items-center gap-4 mb-4">
+                      <h2 class="text-2xl md:text-3xl font-display font-black flex-1 group-hover:underline decoration-4">
+                        {post.data.title}
+                      </h2>
+                      <span class="font-black bg-neutral-900 text-white px-4 py-2 border-2 border-black uppercase text-sm">
+                        {displayDate}
+                      </span>
+                    </div>
+
+                    <p class="font-bold mb-4 text-lg border-l-4 border-black pl-4 text-neutral-700">
+                      {post.data.excerpt}
+                    </p>
+
+                    <div class="flex items-center gap-2 font-black uppercase text-sm mt-6 group-hover:translate-x-2 transition-transform">
+                      Read Article
+                      <svg
+                        class="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </div>
+                  </a>
+                </article>
+              );
+            })
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

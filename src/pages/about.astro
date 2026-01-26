@@ -1,0 +1,241 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { getCollection, getEntry } from 'astro:content';
+import {
+  PAGE_TITLES,
+  META_DESCRIPTIONS,
+} from "../lib/constants";
+
+// Fetch data from Content Collections
+const about = await getEntry('about', 'about');
+const skills = await getCollection('skills');
+const experiences = await getCollection('experience');
+
+// Sort skills by order
+const sortedSkills = [...skills].sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+// Sort experiences by order
+const sortedExperiences = [...experiences].sort((a, b) => {
+  if (a.data.order !== b.data.order) {
+    return (a.data.order || 0) - (b.data.order || 0);
+  }
+  const dateA = new Date(a.data.startDate);
+  const dateB = new Date(b.data.startDate);
+  return dateB.getTime() - dateA.getTime();
+});
+
+// Format date helper
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString("en-US", {
+    month: "2-digit",
+    year: "numeric",
+  });
+};
+
+const formatPeriod = (
+  startDate: string,
+  endDate?: string,
+  isCurrent?: boolean,
+) => {
+  const start = formatDate(startDate);
+  const end = isCurrent ? "Present" : endDate ? formatDate(endDate) : "";
+  return `${start} - ${end}`;
+};
+
+// Rotation classes for visual variety
+const rotations = ["hover:-rotate-1", "hover:rotate-1", "hover:-rotate-1"];
+---
+
+<Layout title={PAGE_TITLES.about} description={META_DESCRIPTIONS.about}>
+  <Header />
+  <main>
+    <section class="min-h-screen py-24 bg-white">
+      <div class="max-w-6xl mx-auto px-6">
+        <h1
+          class="text-5xl md:text-6xl font-display font-black mb-16 text-center uppercase transform -rotate-1"
+        >
+          <span
+            class="bg-neutral-900 text-white border-4 border-black px-6 py-2 inline-block shadow-brutal-md"
+          >
+            About Me
+          </span>
+        </h1>
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <!-- Background Card -->
+          <div
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg"
+          >
+            <h2 class="text-3xl font-display font-black uppercase mb-6">
+              Background
+            </h2>
+            {
+              about.data.backgroundParagraphs.map((paragraph, idx) => (
+                <p
+                  class={`font-semibold leading-relaxed text-lg text-neutral-700 ${idx < about.data.backgroundParagraphs.length - 1 ? "mb-6" : ""}`}
+                  set:html={paragraph}
+                />
+              ))
+            }
+          </div>
+
+          <!-- Skills Card -->
+          <div
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg"
+          >
+            <h2 class="text-3xl font-display font-black uppercase mb-6">
+              Skills
+            </h2>
+
+            <div class="space-y-6" id="skills-container">
+              {sortedSkills.map((skill, idx) => {
+                const isHidden = idx >= 8;
+                return (
+                  <div 
+                    class={`mb-4 ${isHidden ? 'hidden' : ''}`}
+                    data-skill-index={idx}
+                    id={`skill-${idx}`}
+                  >
+                    <div class="flex justify-between mb-3">
+                      <span class="font-black uppercase text-sm">
+                        {skill.data.name}
+                      </span>
+                      <span class="font-black">{skill.data.level}%</span>
+                    </div>
+                    <div class="h-6 bg-white border-4 border-black overflow-hidden">
+                      <div
+                        class="h-full bg-neutral-800 border-r-4 border-black"
+                        style={`width: ${skill.data.level}%`}
+                      />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {sortedSkills.length > 8 && (
+              <button
+                id="show-more-skills"
+                class="mt-6 w-full px-6 py-3 bg-white border-4 border-black font-black uppercase text-sm hover:bg-neutral-100 transition-colors shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none"
+                aria-label="Show more skills"
+              >
+                Show More Skills
+              </button>
+            )}
+          </div>
+        </div>
+
+        <!-- Experience Section -->
+        <div class="mt-16">
+          <h2
+            class="text-4xl font-display font-black mb-8 text-center uppercase"
+          >
+            Experience & Education
+          </h2>
+
+          <div class="space-y-6">
+            {
+              sortedExperiences.map((exp, idx) => (
+                <div
+                  class={`bg-white border-4 border-black p-6 shadow-brutal-md transform ${rotations[idx % rotations.length]} transition-transform`}
+                >
+                  <div class="flex flex-wrap justify-between items-start mb-3 gap-4">
+                    <div>
+                      <h3 class="text-2xl font-display font-black uppercase">
+                        {exp.data.title}
+                      </h3>
+                      <p class="font-bold text-lg text-neutral-600 mt-1">
+                        {exp.data.company}
+                        {exp.data.location && ` • ${exp.data.location}`}
+                      </p>
+                    </div>
+                    <span class="font-black bg-neutral-900 text-white px-4 py-1 border-2 border-black text-sm">
+                      {formatPeriod(exp.data.startDate, exp.data.endDate, exp.data.isCurrent)}
+                    </span>
+                  </div>
+                  <p class="font-semibold text-lg text-neutral-700 mb-3">
+                    {exp.data.description}
+                  </p>
+                  {exp.data.achievements && exp.data.achievements.length > 0 && (
+                    <ul class="space-y-2 mt-4">
+                      {exp.data.achievements.slice(0, 3).map((achievement) => (
+                        <li class="font-semibold flex items-start gap-2 text-neutral-700">
+                          <span class="font-black mt-1">→</span>
+                          <span>{achievement}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                  {exp.data.technologies && exp.data.technologies.length > 0 && (
+                    <div class="flex flex-wrap gap-2 mt-4">
+                      {exp.data.technologies.slice(0, 5).map((tech) => (
+                        <span class="px-3 py-1 bg-neutral-100 border-2 border-black font-black text-xs uppercase">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-16 text-center">
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+            tabindex="0"
+            aria-label="Get in touch"
+          >
+            Let's Work Together
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<script>
+  const showMoreButton = document.getElementById('show-more-skills');
+  const skillsContainer = document.getElementById('skills-container');
+  
+  if (showMoreButton && skillsContainer) {
+    let isExpanded = false;
+    
+    showMoreButton.addEventListener('click', () => {
+      const hiddenSkills = skillsContainer.querySelectorAll('[data-skill-index]');
+      
+      hiddenSkills.forEach((skillEl) => {
+        const index = parseInt(skillEl.getAttribute('data-skill-index') || '0');
+        if (index >= 8) {
+          if (isExpanded) {
+            skillEl.classList.add('hidden');
+          } else {
+            skillEl.classList.remove('hidden');
+          }
+        }
+      });
+      
+      isExpanded = !isExpanded;
+      showMoreButton.textContent = isExpanded ? 'Show Less Skills' : 'Show More Skills';
+    });
+  }
+</script>

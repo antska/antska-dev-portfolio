@@ -1,0 +1,180 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Footer from "../components/Footer.astro";
+import {
+  HERO_DESCRIPTION,
+  NAVIGATION_CARDS,
+  PAGE_TITLES,
+  META_DESCRIPTIONS,
+} from "../lib/constants";
+
+// Use default hero description (about data doesn't have summary field)
+const heroDescription = HERO_DESCRIPTION;
+---
+
+<Layout title={PAGE_TITLES.home} description={META_DESCRIPTIONS.home}>
+  <Header />
+  <main>
+    <Hero description={heroDescription} />
+
+    <!-- Quick Navigation Section -->
+    <section class="py-24 bg-white border-b-4 border-black">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2
+          class="text-4xl md:text-5xl font-display font-black mb-12 text-center uppercase transform rotate-1"
+        >
+          <span
+            class="bg-neutral-900 text-white border-4 border-black px-6 py-2 inline-block shadow-brutal-md"
+          >
+            Explore
+          </span>
+        </h2>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- About Card -->
+          <a
+            href={NAVIGATION_CARDS.about.href}
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all transform rotate-1 group"
+            tabindex="0"
+            aria-label="Learn more about me"
+          >
+            <div class="text-4xl font-display font-black mb-4">
+              {NAVIGATION_CARDS.about.icon}
+            </div>
+            <h3
+              class="text-2xl font-display font-black uppercase mb-3 group-hover:underline decoration-4"
+            >
+              {NAVIGATION_CARDS.about.title}
+            </h3>
+            <p class="font-bold text-neutral-700 mb-4">
+              {NAVIGATION_CARDS.about.description}
+            </p>
+            <div class="flex items-center gap-2 font-black uppercase text-sm">
+              {NAVIGATION_CARDS.about.label}
+              <svg
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Projects Card -->
+          <a
+            href={NAVIGATION_CARDS.projects.href}
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all transform -rotate-1 group"
+            tabindex="0"
+            aria-label="View my projects"
+          >
+            <div class="text-4xl font-display font-black mb-4">
+              {NAVIGATION_CARDS.projects.icon}
+            </div>
+            <h3
+              class="text-2xl font-display font-black uppercase mb-3 group-hover:underline decoration-4"
+            >
+              {NAVIGATION_CARDS.projects.title}
+            </h3>
+            <p class="font-bold text-neutral-700 mb-4">
+              {NAVIGATION_CARDS.projects.description}
+            </p>
+            <div class="flex items-center gap-2 font-black uppercase text-sm">
+              {NAVIGATION_CARDS.projects.label}
+              <svg
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Blog Card -->
+          <a
+            href={NAVIGATION_CARDS.blog.href}
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all transform rotate-1 group"
+            tabindex="0"
+            aria-label="Read my blog"
+          >
+            <div class="text-4xl font-display font-black mb-4">
+              {NAVIGATION_CARDS.blog.icon}
+            </div>
+            <h3
+              class="text-2xl font-display font-black uppercase mb-3 group-hover:underline decoration-4"
+            >
+              {NAVIGATION_CARDS.blog.title}
+            </h3>
+            <p class="font-bold text-neutral-700 mb-4">
+              {NAVIGATION_CARDS.blog.description}
+            </p>
+            <div class="flex items-center gap-2 font-black uppercase text-sm">
+              {NAVIGATION_CARDS.blog.label}
+              <svg
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </div>
+          </a>
+
+          <!-- Contact Card -->
+          <a
+            href={NAVIGATION_CARDS.contact.href}
+            class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-lg hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all transform -rotate-1 group"
+            tabindex="0"
+            aria-label="Get in touch"
+          >
+            <div class="text-4xl font-display font-black mb-4">
+              {NAVIGATION_CARDS.contact.icon}
+            </div>
+            <h3
+              class="text-2xl font-display font-black uppercase mb-3 group-hover:underline decoration-4"
+            >
+              {NAVIGATION_CARDS.contact.title}
+            </h3>
+            <p class="font-bold text-neutral-700 mb-4">
+              {NAVIGATION_CARDS.contact.description}
+            </p>
+            <div class="flex items-center gap-2 font-black uppercase text-sm">
+              {NAVIGATION_CARDS.contact.label}
+              <svg
+                class="w-4 h-4 group-hover:translate-x-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              </svg>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
