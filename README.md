@@ -1,4 +1,4 @@
-# Antska Dev Portfolio
+# antska.dev Personal Portfolio
 
 A modern, fast, and brutalist-styled developer portfolio built with **Astro**, **React**, **TypeScript**, and **Sanity CMS**.
 
@@ -49,21 +49,26 @@ antska-dev-portfolio/
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/antska-dev-portfolio.git
    cd antska-dev-portfolio
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
+
    ```bash
    cp .env.example .env
    ```
+
    Edit `.env` and add your Sanity project ID:
+
    ```env
    PUBLIC_SANITY_PROJECT_ID=your_project_id
    PUBLIC_SANITY_DATASET=production
@@ -78,15 +83,18 @@ antska-dev-portfolio/
 ### Sanity Studio Setup
 
 1. **Install Sanity dependencies**
+
    ```bash
    cd sanity
    npm install
    ```
 
 2. **Start Sanity Studio**
+
    ```bash
    npm run dev
    ```
+
    Open [http://localhost:3333](http://localhost:3333)
 
 3. **Import default data** (optional)
@@ -97,12 +105,14 @@ antska-dev-portfolio/
 ## 📜 Available Scripts
 
 ### Root Directory
+
 - `npm run dev` - Start Astro dev server
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run sanity` - Start Sanity Studio
 
 ### Sanity Directory
+
 - `npm run dev` - Start Sanity Studio
 - `npm run build` - Build Sanity Studio
 - `npm run deploy` - Deploy Sanity Studio
@@ -120,6 +130,7 @@ antska-dev-portfolio/
 ### Styling
 
 The project uses Tailwind CSS with a custom brutalist theme. Main styles are defined in:
+
 - `tailwind.config.mjs` - Tailwind configuration
 - `src/styles/` - Global CSS files
 
@@ -144,6 +155,7 @@ The project uses Tailwind CSS with a custom brutalist theme. Main styles are def
 ```bash
 npm run build
 ```
+
 The `dist/` folder contains your static site ready to deploy.
 
 ## 📄 License
@@ -154,9 +166,9 @@ This project is open source and available under the [MIT License](LICENSE).
 
 **Antonis Skandalis**
 
-- Portfolio: [Your Website](https://yourwebsite.com)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
-- GitHub: [@yourusername](https://github.com/yourusername)
+- Portfolio: [antska.dev](https://antska.dev)
+- LinkedIn: [@antskandalis](https://linkedin.com/in/antskandalis)
+- GitHub: [@antska](https://github.com/antska)
 
 ## 🙏 Acknowledgments
 
