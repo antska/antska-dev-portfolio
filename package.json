@@ -1,0 +1,27 @@
+{
+  "name": "antska-dev-portfolio",
+  "type": "module",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "sanity": "cd sanity && npm run dev",
+    "sanity:build": "cd sanity && npm run build",
+    "sanity:deploy": "cd sanity && npm run deploy"
+  },
+  "dependencies": {
+    "@astrojs/tailwind": "^6.0.2",
+    "@sanity/client": "^6.15.0",
+    "@sanity/image-url": "^1.0.2",
+    "astro": "^5.16.11",
+    "groq": "^3.32.0"    
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.0"
+  }
+}

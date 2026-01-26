@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://antska.dev/sitemap.xml
+
+# Disallow admin/internal pages if you add any later
+# Disallow: /admin/
