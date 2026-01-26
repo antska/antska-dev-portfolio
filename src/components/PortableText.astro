@@ -1,0 +1,150 @@
+---
+import { urlFor } from '../lib/sanity';
+
+interface Props {
+  content: any[];
+  className?: string;
+}
+
+const { content, className = '' } = Astro.props;
+
+if (!content || !Array.isArray(content) || content.length === 0) {
+  return null;
+}
+
+// Check if content is an array of strings (from constants) or portable text (from Sanity)
+const isPortableText = content.length > 0 && typeof content[0] === 'object' && content[0]._type;
+
+const renderBlock = (block: any): string => {
+  if (block._type === 'block') {
+    let html = '';
+    
+    // Process text nodes
+    if (block.children && Array.isArray(block.children)) {
+      block.children.forEach((child: any) => {
+        let text = child.text || '';
+        
+        // Apply marks (bold, italic, code)
+        if (child.marks && Array.isArray(child.marks)) {
+          child.marks.forEach((mark: string) => {
+            if (mark === 'strong') {
+              text = `<strong>${text}</strong>`;
+            } else if (mark === 'em') {
+              text = `<em>${text}</em>`;
+            } else if (mark === 'code') {
+              text = `<code class="bg-neutral-100 px-2 py-1 border border-black font-mono text-sm">${text}</code>`;
+            }
+          });
+        }
+        
+        html += text;
+      });
+    }
+    
+    // Wrap in appropriate tag based on style
+    const tag = block.style === 'h2' ? 'h2' : 
+                block.style === 'h3' ? 'h3' : 
+                block.style === 'blockquote' ? 'blockquote' : 'p';
+    
+    const styleClasses = {
+      h2: 'text-2xl font-display font-black uppercase mb-4 mt-8',
+      h3: 'text-xl font-display font-black uppercase mb-3 mt-6',
+      blockquote: 'border-l-4 border-black pl-4 italic text-neutral-700 my-4',
+      p: 'font-semibold leading-relaxed text-lg text-neutral-800 mb-4'
+    };
+    
+    return `<${tag} class="${styleClasses[tag as keyof typeof styleClasses] || styleClasses.p}">${html}</${tag}>`;
+  }
+  
+  return '';
+};
+
+const renderImage = (image: any) => {
+  if (!image) return null;
+  
+  // Check if asset exists (either as reference or expanded)
+  if (!image.asset && !image._id) return null;
+  
+  try {
+    const imageUrl = urlFor(image).width(1200).height(600).fit('max').url();
+    const alt = image.alt || image.caption || '';
+    const caption = image.caption || '';
+    
+    return {
+      type: 'image',
+      url: imageUrl,
+      alt,
+      caption
+    };
+  } catch (error) {
+    console.error('Error generating image URL:', error);
+    return null;
+  }
+};
+
+const renderCode = (code: any): string => {
+  if (!code || !code.code) return '';
+  
+  const language = code.language || 'text';
+  const codeContent = code.code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  
+  return `<pre class="bg-neutral-900 text-white border-4 border-black p-6 overflow-x-auto my-6"><code class="language-${language}">${codeContent}</code></pre>`;
+};
+
+// Process content items
+const processedItems: Array<{ type: string; html?: string; image?: any }> = [];
+
+if (isPortableText) {
+  content.forEach((item: any) => {
+    if (item._type === 'block') {
+      const html = renderBlock(item);
+      if (html) {
+        processedItems.push({ type: 'html', html });
+      }
+    } else if (item._type === 'image') {
+      const image = renderImage(item);
+      if (image) {
+        processedItems.push({ type: 'image', image });
+      }
+    } else if (item._type === 'code') {
+      const html = renderCode(item);
+      if (html) {
+        processedItems.push({ type: 'html', html });
+      }
+    }
+  });
+} else {
+  // Handle string array from constants
+  content.forEach((item: string) => {
+    processedItems.push({ 
+      type: 'html', 
+      html: `<p class="font-semibold leading-relaxed text-lg text-neutral-800 mb-4">${item}</p>` 
+    });
+  });
+}
+---
+
+<div class={`space-y-6 ${className}`}>
+  {processedItems.map((item) => {
+    if (item.type === 'html' && item.html) {
+      return <div set:html={item.html}></div>;
+    } else if (item.type === 'image' && item.image) {
+      return (
+        <figure class="my-8">
+          <img 
+            src={item.image.url} 
+            alt={item.image.alt} 
+            class="w-full border-4 border-black shadow-brutal-md"
+            loading="lazy"
+          />
+          {item.image.caption && (
+            <figcaption class="mt-2 text-sm font-semibold text-neutral-600 text-center">
+              {item.image.caption}
+            </figcaption>
+          )}
+        </figure>
+      );
+    }
+    return null;
+  })}
+</div>

@@ -1,0 +1,19 @@
+---
+import { HERO_DESCRIPTION } from "../lib/constants";
+
+interface Props {
+  text?: string;
+  className?: string;
+}
+
+const {
+  text = HERO_DESCRIPTION,
+  className = "",
+} = Astro.props;
+---
+
+<p
+  class={`text-xl md:text-2xl font-bold mb-12 max-w-2xl mx-auto leading-relaxed text-neutral-700 ${className}`}
+>
+  {text}
+</p>

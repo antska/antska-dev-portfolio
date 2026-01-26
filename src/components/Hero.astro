@@ -1,0 +1,54 @@
+---
+import AvailabilityBadge from "./AvailabilityBadge.astro";
+import KeywordBackground from "./KeywordBackground.astro";
+import HeroTitle from "./HeroTitle.astro";
+import HeroDescription from "./HeroDescription.astro";
+import HeroCTA from "./HeroCTA.astro";
+import SocialLinks from "./SocialLinks.astro";
+import { HERO_DESCRIPTION, HERO_TITLE, HERO_CTA } from "../lib/constants";
+
+interface Props {
+  showAvailableBadge?: boolean;
+  title?: {
+    primary?: string;
+    secondary?: string;
+  };
+  description?: string;
+  cta?: {
+    primaryLabel?: string;
+    primaryHref?: string;
+    secondaryLabel?: string;
+    secondaryHref?: string;
+  };
+}
+
+const {
+  showAvailableBadge = true,
+  title = HERO_TITLE,
+  description = HERO_DESCRIPTION,
+  cta = HERO_CTA,
+} = Astro.props;
+---
+
+<section
+  class="min-h-screen flex items-center justify-center bg-neutral-50 border-b-4 border-black relative overflow-hidden"
+>
+  <KeywordBackground />
+
+  <div class="max-w-5xl mx-auto px-6 text-center relative z-10 py-20">
+    <AvailabilityBadge show={showAvailableBadge} />
+
+    <HeroTitle primaryText={title.primary} secondaryText={title.secondary} />
+
+    <HeroDescription text={description} />
+
+    <HeroCTA
+      primaryLabel={cta.primaryLabel}
+      primaryHref={cta.primaryHref}
+      secondaryLabel={cta.secondaryLabel}
+      secondaryHref={cta.secondaryHref}
+    />
+
+    <SocialLinks className="mt-12" />
+  </div>
+</section>

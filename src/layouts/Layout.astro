@@ -1,0 +1,306 @@
+---
+import { ViewTransitions } from "astro:transitions";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+}
+
+const {
+  title,
+  description = "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. Building scalable, performant web applications with modern JavaScript frameworks.",
+  image = "/og-image.jpg",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author = "Antonis Skandalis",
+} = Astro.props;
+
+const siteUrl = Astro.site || "https://antska.dev";
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const ogImage = new URL(image, siteUrl).href;
+
+// Structured Data (JSON-LD)
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Antonis Skandalis",
+  jobTitle: "Senior Frontend Engineer",
+  url: siteUrl,
+  sameAs: ["https://github.com/antska", "https://linkedin.com/in/antskandalis"],
+  knowsAbout: [
+    "React",
+    "TypeScript",
+    "Vue.js",
+    "Frontend Development",
+    "Full-Stack Development",
+    "Web Performance",
+  ],
+  description: description,
+};
+
+const articleSchema =
+  type === "article"
+    ? {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: title,
+        description: description,
+        author: {
+          "@type": "Person",
+          name: author,
+        },
+        publisher: {
+          "@type": "Person",
+          name: "Antonis Skandalis",
+        },
+        datePublished: publishedTime,
+        dateModified: modifiedTime || publishedTime,
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": canonicalURL.href,
+        },
+      }
+    : null;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href={canonicalURL.href} />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts - Using a bold, geometric font for brutalist aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content="antska.dev" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL.href} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:creator" content="@antska" />
+
+    {
+      publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )
+    }
+    {
+      modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
+      )
+    }
+    {author && <meta property="article:author" content={author} />}
+
+    <!-- Structured Data -->
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(personSchema)}
+    />
+    {
+      articleSchema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(articleSchema)}
+        />
+      )
+    }
+
+    <title>{title}</title>
+
+    <!-- View Transitions -->
+    <ViewTransitions />
+  </head>
+  <body class="min-h-screen bg-neutral-50 text-black font-sans antialiased">
+    <slot />
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::selection {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+  }
+
+  body {
+    font-family: "Space Grotesk", system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Archivo Black", "Space Grotesk", system-ui, sans-serif;
+  }
+
+  /* View Transitions - Brutalist Style */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.4s;
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Brutalist slide transition with opacity */
+  @keyframes brutal-slide-out {
+    from {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+    to {
+      transform: translateX(-30px) scale(0.98);
+      opacity: 0;
+    }
+  }
+
+  @keyframes brutal-slide-in {
+    from {
+      transform: translateX(30px) scale(0.98);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+
+  ::view-transition-old(root) {
+    animation-name: brutal-slide-out;
+  }
+
+  ::view-transition-new(root) {
+    animation-name: brutal-slide-in;
+  }
+
+  /* Header persistent transition - no animation */
+  ::view-transition-old(header),
+  ::view-transition-new(header) {
+    animation: none;
+    mix-blend-mode: normal;
+    height: auto;
+    right: 0;
+    left: 0;
+    transform: none;
+  }
+
+  /* Smooth scroll restoration */
+  html {
+    view-transition-name: root;
+  }
+
+  /* Prevent flash of unstyled content during transition */
+  [data-astro-transition-scope] {
+    view-transition-name: root;
+  }
+
+  /* Header persistent transition */
+  header[data-transition-name="header"] {
+    view-transition-name: header;
+  }
+
+  /* Transition group container */
+  ::view-transition-group(root) {
+    animation-duration: 0.4s;
+  }
+
+  /* Brutalist loading indicator - top border */
+  @keyframes brutal-load-bar {
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  /* Loading bar during transition */
+  html[data-transitioning]::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: black;
+    z-index: 10000;
+    pointer-events: none;
+    animation: brutal-load-bar 0.4s ease-out;
+  }
+</style>
+
+<script>
+  // Set up header for persistent transition
+  document.addEventListener("DOMContentLoaded", () => {
+    const header = document.querySelector(
+      'header[data-transition-name="header"]',
+    );
+    if (header) {
+      header.style.viewTransitionName = "header";
+    }
+  });
+
+  // Handle page transitions - add loading indicator
+  document.addEventListener("astro:before-preparation", () => {
+    document.documentElement.setAttribute("data-transitioning", "true");
+  });
+
+  // Clean up after page load
+  document.addEventListener("astro:page-load", () => {
+    // Scroll to top on new page load (instant, no smooth scroll during transition)
+    window.scrollTo({ top: 0, behavior: "instant" });
+
+    // Update header transition name for persistence
+    const header = document.querySelector(
+      'header[data-transition-name="header"]',
+    );
+    if (header) {
+      header.style.viewTransitionName = "header";
+    }
+
+    // Remove transitioning attribute after transition completes
+    setTimeout(() => {
+      document.documentElement.removeAttribute("data-transitioning");
+    }, 400);
+  });
+</script>

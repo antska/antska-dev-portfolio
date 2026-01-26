@@ -1,0 +1,18 @@
+---
+interface Props {
+  primaryText?: string;
+  secondaryText?: string;
+}
+
+const { primaryText = "ANTONIS", secondaryText = "SKANDALIS" } = Astro.props;
+---
+
+<h1
+  class="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-black mb-6 leading-tight transform -rotate-1"
+>
+  {primaryText}
+  <br />
+  <span class="bg-black text-white px-6 inline-block transform rotate-1">
+    {secondaryText}
+  </span>
+</h1>

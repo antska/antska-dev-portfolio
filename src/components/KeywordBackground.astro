@@ -1,0 +1,192 @@
+---
+import { KEYWORDS } from "../lib/keywords";
+import "../styles/hero-animations.css";
+---
+
+<!-- Scattered JavaScript keywords -->
+<div
+  class="absolute top-[15%] left-[8%] hidden sm:block animate-keyword-fade-1"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute top-[25%] right-[12%] hidden sm:block animate-keyword-fade-2"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute bottom-[20%] left-[15%] hidden sm:block animate-keyword-fade-3"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute bottom-[30%] right-[8%] hidden sm:block animate-keyword-fade-4"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute top-[40%] left-[20%] hidden md:block animate-keyword-fade-5"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[9px] md:text-[10px] font-mono text-black opacity-25"
+  ></span>
+</div>
+<div
+  class="absolute top-[60%] right-[25%] hidden md:block animate-keyword-fade-6"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[9px] md:text-[10px] font-mono text-black opacity-25"
+  ></span>
+</div>
+<div
+  class="absolute bottom-[45%] left-[30%] hidden lg:block animate-keyword-fade-7"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute top-[70%] right-[18%] hidden lg:block animate-keyword-fade-8"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[9px] md:text-[10px] font-mono text-black opacity-25"
+  ></span>
+</div>
+<div
+  class="absolute top-[10%] left-[25%] hidden md:block animate-keyword-fade-9"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[9px] md:text-[10px] font-mono text-black opacity-25"
+  ></span>
+</div>
+<div
+  class="absolute bottom-[15%] right-[30%] hidden md:block animate-keyword-fade-10"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[9px] md:text-[10px] font-mono text-black opacity-25"
+  ></span>
+</div>
+<div
+  class="absolute top-[50%] left-[5%] hidden lg:block animate-keyword-fade-11"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+<div
+  class="absolute bottom-[50%] right-[5%] hidden lg:block animate-keyword-fade-12"
+  aria-hidden="true"
+>
+  <span
+    class="keyword-text text-[10px] md:text-xs font-mono text-black opacity-30"
+  ></span>
+</div>
+
+<script>
+  import { KEYWORDS } from "../lib/keywords";
+
+  (function () {
+    "use strict";
+
+    // Check if reduced motion is preferred
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    // Get keyword elements
+    const getKeywordElements = () => document.querySelectorAll(".keyword-text");
+    const keywordElements = getKeywordElements();
+
+    // Only run if keywords exist (landing page only)
+    if (keywordElements.length === 0) return;
+
+    // Get random keyword
+    const getRandomKeyword = () => {
+      return KEYWORDS[Math.floor(Math.random() * KEYWORDS.length)];
+    };
+
+    // Initialize keywords
+    const initKeywords = () => {
+      const elements = getKeywordElements();
+      elements.forEach((el) => {
+        el.textContent = getRandomKeyword();
+      });
+    };
+
+    // Initialize on page load
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initKeywords);
+    } else {
+      initKeywords();
+    }
+
+    // Skip dynamic updates if user prefers reduced motion
+    if (prefersReducedMotion) return;
+
+    // Throttle function to limit update frequency
+    let lastUpdate = 0;
+    const throttleDelay = 5000; // 5 seconds
+
+    // Update keywords with throttling
+    const updateKeywords = () => {
+      const now = Date.now();
+      if (now - lastUpdate < throttleDelay) return;
+      lastUpdate = now;
+
+      // Use requestAnimationFrame for smoother updates
+      requestAnimationFrame(() => {
+        const elements = getKeywordElements();
+        elements.forEach((el) => {
+          // Only change some keywords randomly (70% chance)
+          if (Math.random() > 0.3) {
+            el.textContent = getRandomKeyword();
+          }
+        });
+      });
+    };
+
+    // Set up interval with cleanup tracking
+    let updateInterval = setInterval(updateKeywords, throttleDelay);
+
+    // Clean up on page unload/transition
+    const cleanup = () => {
+      if (updateInterval) {
+        clearInterval(updateInterval);
+        updateInterval = null;
+      }
+    };
+
+    // Cleanup handlers
+    window.addEventListener("beforeunload", cleanup);
+    document.addEventListener("astro:before-preparation", cleanup);
+    document.addEventListener("astro:page-load", cleanup);
+
+    // Re-initialize on page load (for Astro View Transitions)
+    document.addEventListener("astro:page-load", () => {
+      const newElements = getKeywordElements();
+      if (newElements.length > 0 && !prefersReducedMotion) {
+        initKeywords();
+        updateInterval = setInterval(updateKeywords, throttleDelay);
+      }
+    });
+  })();
+</script>

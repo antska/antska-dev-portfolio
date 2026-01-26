@@ -1,0 +1,71 @@
+/* Keyword fade animations with staggered delays */
+@keyframes keyword-fade {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+}
+
+.animate-keyword-fade-1 {
+  animation: keyword-fade 3s ease-in-out infinite;
+}
+
+.animate-keyword-fade-2 {
+  animation: keyword-fade 3.5s ease-in-out infinite;
+  animation-delay: 0.4s;
+}
+
+.animate-keyword-fade-3 {
+  animation: keyword-fade 2.8s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+.animate-keyword-fade-4 {
+  animation: keyword-fade 3.2s ease-in-out infinite;
+  animation-delay: 1.2s;
+}
+
+.animate-keyword-fade-5 {
+  animation: keyword-fade 2.9s ease-in-out infinite;
+  animation-delay: 1.6s;
+}
+
+.animate-keyword-fade-6 {
+  animation: keyword-fade 3.3s ease-in-out infinite;
+  animation-delay: 2s;
+}
+
+.animate-keyword-fade-7 {
+  animation: keyword-fade 3.1s ease-in-out infinite;
+  animation-delay: 2.4s;
+}
+
+.animate-keyword-fade-8 {
+  animation: keyword-fade 2.7s ease-in-out infinite;
+  animation-delay: 2.8s;
+}
+
+.animate-keyword-fade-9 {
+  animation: keyword-fade 3.4s ease-in-out infinite;
+  animation-delay: 3.2s;
+}
+
+.animate-keyword-fade-10 {
+  animation: keyword-fade 2.6s ease-in-out infinite;
+  animation-delay: 3.6s;
+}
+
+.animate-keyword-fade-11 {
+  animation: keyword-fade 3s ease-in-out infinite;
+  animation-delay: 4s;
+}
+
+.animate-keyword-fade-12 {
+  animation: keyword-fade 2.5s ease-in-out infinite;
+  animation-delay: 4.4s;
+}
