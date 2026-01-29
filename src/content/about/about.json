@@ -1,0 +1,29 @@
+{
+  "backgroundParagraphs": [
+    "Hey, I'm <strong>Antonis</strong>, and I've been building web applications for 10 years. What keeps me engaged is the challenge of creating interfaces that feel intuitive and perform well under real-world conditions.",
+    "My experience spans startups and established companies, with a consistent focus on clean code, performance, and scalability. React and TypeScript are my primary tools, though I regularly work across the full stack when the project requires it.",
+    "When I'm not shipping features, you'll find me tinkering with new tech, crafting a new idea or just playing piano."
+  ],
+  "languages": [
+    {
+      "language": "Greek",
+      "proficiency": "Native"
+    },
+    {
+      "language": "English",
+      "proficiency": "Fluent"
+    },
+    {
+      "language": "French",
+      "proficiency": "Conversational"
+    }
+  ],
+  "softSkills": [
+    "Effective Communication",
+    "Ownership & Accountability",
+    "Cross-functional Collaboration",
+    "Technical Leadership & Mentoring",
+    "Decision Making",
+    "Agile/Scrum Methodologies"
+  ]
+}
