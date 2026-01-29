@@ -62,9 +62,8 @@ coverage/
 .cache/
 .temp/
 
-# Documentation (exclude all .md except README.md)
-*.md
-!README.md
+# Documentation
+docs/
 
 # Sanity
 sanity/.sanity/

@@ -1,4 +1,41 @@
-import type { About, Skill, Experience, Project } from './sanity';
+// Types for default data (now using Content Collections)
+export interface About {
+  backgroundParagraphs: string[];
+  languages?: Array<{ language: string; proficiency: string }>;
+  softSkills?: string[];
+}
+
+export interface Skill {
+  name: string;
+  category?: string;
+  level: number;
+  order?: number;
+}
+
+export interface Experience {
+  title: string;
+  company: string;
+  location?: string;
+  startDate: string;
+  endDate?: string;
+  isCurrent?: boolean;
+  description: string;
+  achievements?: string[];
+  technologies?: string[];
+  order?: number;
+}
+
+export interface Project {
+  title: string;
+  slug: string;
+  description: string;
+  tags: string[];
+  highlights?: string[];
+  liveUrl?: string;
+  githubUrl?: string;
+  featured?: boolean;
+  publishedAt: string;
+}
 
 // Hero Section
 export const HERO_DESCRIPTION = "Senior Frontend Engineer specializing mostly in React & TypeScript, with full-stack capabilities. Building scalable, performant web applications with modern JavaScript frameworks.";
@@ -312,3 +349,413 @@ export const PAGE_TITLES = {
   contact: "Contact | Antonis Skandalis",
   notFound: "404 - Page Not Found | Antonis Skandalis"
 };
+
+// Blog Posts
+export interface BlogPost {
+  _id?: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content?: any[] | string;
+  contentMarkdown?: string;
+  category?: string;
+  readTime?: string;
+  publishedAt: string;
+}
+
+export const DEFAULT_POSTS: BlogPost[] = [
+  {
+    _id: '1',
+    title: "Why I Switched from Redux to Jotai (And When You Shouldn't)",
+    slug: "jotai-vs-redux",
+    excerpt: "I spent years building apps with Redux. Then I discovered Jotai, and honestly? It changed how I think about state management.",
+    content: `I spent years building apps with Redux. Then I discovered Jotai, and honestly? It changed how I think about state management.
+
+The Problem
+
+At my previous company, we had a Redux store that looked like this:
+
+// store.ts
+const rootReducer = combineReducers({
+  user: userReducer,
+  products: productsReducer,
+  cart: cartReducer,
+  ui: uiReducer,
+  // ... 15 more slices
+});
+
+Every feature needed actions, reducers, selectors. Want to update a single boolean? Create an action type, action creator, reducer case, and selector. It worked, but the boilerplate was killing us.
+
+The Switch
+
+When I joined Blueground, we were starting fresh. I suggested Jotai for a new feature, and the team was skeptical. "What's Jotai?" Fair question.
+
+Here's what sold me:
+
+// Before (Redux)
+// actions.ts
+export const setLoading = (isLoading: boolean) => ({
+  type: 'SET_LOADING',
+  payload: isLoading
+});
+
+// reducer.ts
+case 'SET_LOADING':
+  return { ...state, isLoading: action.payload };
+
+// component.tsx
+const isLoading = useSelector(state => state.ui.isLoading);
+dispatch(setLoading(true));
+
+// After (Jotai)
+// atoms.ts
+export const loadingAtom = atom(false);
+
+// component.tsx
+const [isLoading, setIsLoading] = useAtom(loadingAtom);
+setIsLoading(true);
+
+That's it. No actions, no reducers, no selectors. Just atoms and hooks.
+
+When It Works
+
+Jotai shines for:
+- UI state (modals, toggles, form inputs)
+- Derived state (computed values from other atoms)
+- Component-level state that needs to be shared
+
+// Derived state example
+const itemsAtom = atom([]);
+const totalAtom = atom((get) => 
+  get(itemsAtom).reduce((sum, item) => sum + item.price, 0)
+);
+
+// No memoization needed, no selector complexity
+const total = useAtomValue(totalAtom);
+
+When You Shouldn't Switch
+
+Redux still wins for:
+- Complex middleware needs (we use Redux Toolkit Query for API state)
+- Time-travel debugging (Redux DevTools is unmatched)
+- Large teams where everyone already knows Redux
+
+The Real Win
+
+The biggest benefit? Less code means fewer bugs. We reduced our state management code by about 40%, and honestly, I can't remember the last time we had a state-related bug.
+
+But here's the thing: I'm not saying Redux is bad. It's a solid choice. Jotai just fits better for most of what we do day-to-day.
+
+Use the right tool for the job. Sometimes that's Redux. Sometimes it's Jotai. Sometimes it's just useState.`,
+    category: "React",
+    readTime: "5 min read",
+    publishedAt: "2026-01-15T00:00:00Z"
+  },
+  {
+    _id: '2',
+    title: "Micro-frontends: The Good, The Bad, and The 'Why Did We Do This?'",
+    slug: "micro-frontends-pitfalls",
+    excerpt: "We built a micro-frontend architecture at Blueground that serves 7+ teams. It's been running for 3 years, handling 120K+ bookings annually. Here's what I learned.",
+    content: `We built a micro-frontend architecture at Blueground that serves 7+ teams. It's been running for 3 years, handling 120K+ bookings annually. Here's what I learned.
+
+Why We Did It
+
+We had 10+ applications that needed to share components, but teams needed to deploy independently. Classic micro-frontend problem.
+
+The solution? Module Federation with Webpack 5. Each team owns their app, but we share a design system and common utilities.
+
+// host-app/webpack.config.js
+new ModuleFederationPlugin({
+  name: 'host',
+  remotes: {
+    booking: 'booking@https://booking.example.com/remoteEntry.js',
+    search: 'search@https://search.example.com/remoteEntry.js',
+  },
+  shared: {
+    react: { singleton: true },
+    'react-dom': { singleton: true },
+    '@design-system/components': { singleton: true },
+  },
+});
+
+What Went Right
+
+Independent deployments: Teams can ship features without coordinating releases. This alone saved us hours of planning meetings.
+
+Shared design system: One source of truth for components. Update a button once, it updates everywhere.
+
+Team autonomy: Each team owns their codebase, their tests, their CI/CD. No more "who broke the build?" Slack messages.
+
+What Went Wrong
+
+Version hell: React 18.1 in the host, React 18.0 in a remote? Good luck debugging that hydration error.
+
+Bundle size: Every remote loads its own runtime. We ended up with 3 React instances in memory. Not great.
+
+Development complexity: Running the full stack locally? Good luck. You need 5 terminals, 5 dev servers, and a prayer.
+
+The Fixes
+
+We solved version conflicts by being strict about shared dependencies:
+
+shared: {
+  react: { 
+    singleton: true,
+    requiredVersion: '^18.2.0', // Enforce version
+    strictVersion: true, // Fail if mismatch
+  },
+}
+
+Bundle size? We moved to a single React instance and lazy-loaded remotes only when needed.
+
+Development? We built a local dev proxy that serves remotes from a CDN in dev mode. Not perfect, but it works.
+
+Should You Do It?
+
+Micro-frontends aren't a silver bullet. They add complexity. But if you have:
+- Multiple teams working on different features
+- Need for independent deployments
+- Shared components but separate codebases
+
+Then yeah, it might be worth it. We reduced deployment dependencies by 60% and increased feature delivery speed by 3x.
+
+But if you're a team of 5 working on one product? Just use a monorepo. Seriously.
+
+The Lesson
+
+Every architecture decision is a trade-off. Micro-frontends gave us autonomy and speed, but cost us simplicity and bundle size.
+
+Know what you're trading, and make sure it's worth it.`,
+    category: "Architecture",
+    readTime: "6 min read",
+    publishedAt: "2025-12-15T00:00:00Z"
+  },
+  {
+    _id: '3',
+    title: "Building a Design System with Tailwind (Without Losing Your Mind)",
+    slug: "tailwind-design-system",
+    excerpt: "I've built design systems with Styled Components, CSS Modules, and even plain CSS. But Tailwind? That's a different game.",
+    content: `I've built design systems with Styled Components, CSS Modules, and even plain CSS. But Tailwind? That's a different game.
+
+The Setup
+
+At Blueground, we needed a component library that 10+ applications could use. The catch? It had to work with Tailwind, be type-safe, and not require a PhD in CSS to customize.
+
+Here's what we learned.
+
+The Problem with Utility-First
+
+Tailwind's utility classes are great for one-off components. But when you need a button that's used in 50 places, writing px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 everywhere gets old fast.
+
+The Solution: Component Variants
+
+We used cva (class-variance-authority) to create type-safe component variants:
+
+import { cva, type VariantProps } from 'class-variance-authority';
+import { cn } from '@/lib/utils'; // tailwind-merge utility
+
+const buttonVariants = cva(
+  // Base styles
+  'inline-flex items-center justify-center rounded-md font-medium transition-colors',
+  {
+    variants: {
+      variant: {
+        primary: 'bg-black text-white hover:bg-neutral-800',
+        secondary: 'bg-white text-black border-2 border-black hover:bg-neutral-100',
+        ghost: 'bg-transparent hover:bg-neutral-100',
+      },
+      size: {
+        sm: 'px-3 py-1.5 text-sm',
+        md: 'px-4 py-2 text-base',
+        lg: 'px-6 py-3 text-lg',
+      },
+    },
+    defaultVariants: {
+      variant: 'primary',
+      size: 'md',
+    },
+  }
+);
+
+interface ButtonProps extends VariantProps<typeof buttonVariants> {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Button({ variant, size, className, children, ...props }: ButtonProps) {
+  return (
+    <button
+      className={cn(buttonVariants({ variant, size }), className)}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
+
+Now we get:
+- Type-safe variants (TypeScript knows what's valid)
+- Composable classes (can still add custom classes)
+- Consistent design (all buttons use the same base)
+
+The Real Win: Custom Utilities
+
+Tailwind's plugin system lets you create custom utilities that match your design system:
+
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        'brutal-black': '#000000',
+        'brutal-white': '#FFFFFF',
+      },
+      boxShadow: {
+        'brutal': '4px 4px 0px 0px #000000',
+        'brutal-md': '6px 6px 0px 0px #000000',
+      },
+    },
+  },
+  plugins: [
+    function({ addUtilities }) {
+      addUtilities({
+        '.shadow-brutal': {
+          'box-shadow': '4px 4px 0px 0px #000000',
+        },
+      });
+    },
+  ],
+};
+
+The Gotcha: Responsive Design
+
+Tailwind's responsive utilities are great, but they can get messy:
+
+// Don't do this
+<div className="text-sm md:text-base lg:text-lg xl:text-xl">
+
+Instead, use container queries (when supported) or create responsive variants:
+
+const textVariants = cva('', {
+  variants: {
+    responsive: {
+      true: 'text-sm md:text-base lg:text-lg',
+      false: 'text-base',
+    },
+  },
+});
+
+The Result
+
+We built 50+ components in 3 months. Every app using our design system gets:
+- Consistent styling
+- Type safety
+- Easy customization
+- Small bundle size (Tailwind purges unused classes)
+
+The best part? New developers can contribute without learning a custom CSS system. It's just Tailwind, but organized.
+
+The Takeaway
+
+Tailwind doesn't replace a design system. It enables one. Use variants for components, plugins for custom utilities, and keep your design tokens in the config.
+
+Your future self (and your team) will thank you.`,
+    category: "CSS",
+    readTime: "7 min read",
+    publishedAt: "2025-11-15T00:00:00Z"
+  },
+  {
+    _id: '4',
+    title: "How We Cut Load Time by 40% (Without Breaking Anything)",
+    slug: "performance-optimization",
+    excerpt: "Performance optimization is one of those things everyone talks about but few actually do well. Here's how we did it at Blueground, and the mistakes we made along the way.",
+    content: `Performance optimization is one of those things everyone talks about but few actually do well. Here's how we did it at Blueground, and the mistakes we made along the way.
+
+The Starting Point
+
+Our app was slow. Initial load: 4.2 seconds. Time to interactive: 6.8 seconds. Users were bouncing. We had to fix it.
+
+The Low-Hanging Fruit
+
+First, we did the obvious stuff:
+
+1. Code splitting
+// Before
+import { HeavyComponent } from './HeavyComponent';
+
+// After
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
+
+2. Image optimization
+We switched to Next.js Image component (we were on Next.js at the time). Instant 30% reduction in image payload.
+
+3. Bundle analysis
+npm run build -- --analyze
+
+Turns out we were shipping 2.1MB of JavaScript. A third of it was unused. We removed dead code, got it down to 1.4MB.
+
+The Real Wins
+
+But the big improvements came from things most people don't think about:
+
+1. Prefetching critical routes
+
+// Prefetch routes users are likely to visit
+<link rel="prefetch" href="/search" />
+<link rel="prefetch" href="/booking" />
+
+We analyzed user flows, prefetched the top 3 routes. Saved ~800ms on average.
+
+2. Lazy loading below the fold
+
+// Only load when in viewport
+import { useInView } from 'react-intersection-observer';
+
+function LazySection() {
+  const { ref, inView } = useInView({ triggerOnce: true });
+  
+  return (
+    <div ref={ref}>
+      {inView && <ExpensiveComponent />}
+    </div>
+  );
+}
+
+3. Memoization (but only where it matters)
+
+// Don't do this everywhere
+const MemoizedButton = memo(Button); // Usually unnecessary
+
+// Do this for expensive computations
+const expensiveValue = useMemo(() => {
+  return heavyCalculation(data);
+}, [data]);
+
+We memoized 3 components. That's it. The rest didn't need it.
+
+The Mistakes
+
+Over-optimizing too early: We spent a week optimizing a component that rendered once. Waste of time.
+
+Premature code splitting: We split everything into tiny chunks. Result? More network requests, slower overall load. We consolidated.
+
+Ignoring the network: We optimized JavaScript but forgot about fonts. Added font-display: swap, saved 500ms.
+
+The Results
+
+After 2 months:
+- Initial load: 2.5 seconds (down from 4.2s)
+- Time to interactive: 3.8 seconds (down from 6.8s)
+- Bundle size: 840KB (down from 2.1MB)
+- Lighthouse score: 95+ (was 72)
+
+The Lesson
+
+Performance isn't about one big change. It's about 20 small ones. Measure everything, optimize what matters, ignore the rest.
+
+And for god's sake, use font-display: swap.`,
+    category: "Performance",
+    readTime: "6 min read",
+    publishedAt: "2025-10-15T00:00:00Z"
+  }
+];
