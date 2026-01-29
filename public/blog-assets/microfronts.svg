@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="820" viewBox="0 0 1600 820">
+  <defs>
+    <style>
+      text {
+        font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+        fill: #1f2937;
+      }
+
+      .section {
+        fill: #ffffff;
+        stroke: #e5e7eb;
+        stroke-width: 1.5;
+        rx: 14;
+      }
+
+      .section-title {
+        font-size: 15px;
+        font-weight: 600;
+        fill: #111827;
+      }
+
+      .node {
+        fill: #f9fafb;
+        stroke: #d1d5db;
+        stroke-width: 1.2;
+        rx: 10;
+      }
+
+      .node-title {
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      .node-text {
+        font-size: 12px;
+        fill: #374151;
+      }
+
+      .arrow {
+        stroke: #6b7280;
+        stroke-width: 1.4;
+        fill: none;
+        marker-end: url(#arrowhead);
+      }
+
+      .arrow-muted {
+        stroke-dasharray: 6 4;
+      }
+    </style>
+
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#6b7280"></path>
+    </marker>
+  </defs>
+
+  <!-- Column: Monorepo -->
+  <rect x="40" y="40" width="340" height="740" class="section"></rect>
+  <text x="60" y="70" class="section-title">Source · Monorepo</text>
+
+  <rect x="80" y="120" width="260" height="60" class="node"></rect>
+  <text x="210" y="145" text-anchor="middle" class="node-title">testApp1</text>
+  <text x="210" y="165" text-anchor="middle" class="node-text">Source Code</text>
+
+  <rect x="80" y="200" width="260" height="60" class="node"></rect>
+  <text x="210" y="225" text-anchor="middle" class="node-title">testApp2</text>
+  <text x="210" y="245" text-anchor="middle" class="node-text">Source Code</text>
+
+  <rect x="80" y="280" width="260" height="60" class="node"></rect>
+  <text x="210" y="305" text-anchor="middle" class="node-title">testApp3</text>
+  <text x="210" y="325" text-anchor="middle" class="node-text">Source Code</text>
+
+  <rect x="80" y="380" width="260" height="110" class="node"></rect>
+  <text x="210" y="410" text-anchor="middle" class="node-title">Shared Packages</text>
+  <text x="210" y="435" text-anchor="middle" class="node-text">Design Tokens</text>
+  <text x="210" y="455" text-anchor="middle" class="node-text">UI Primitives</text>
+  <text x="210" y="475" text-anchor="middle" class="node-text">Utilities &amp; Contracts</text>
+
+  <!-- Shared libs usage -->
+  <line x1="210" y1="380" x2="210" y2="340" class="arrow arrow-muted"></line>
+
+  <!-- Column: Build -->
+  <rect x="420" y="40" width="340" height="740" class="section"></rect>
+  <text x="440" y="70" class="section-title">Build &amp; Deploy</text>
+
+  <rect x="460" y="180" width="260" height="70" class="node"></rect>
+  <text x="590" y="210" text-anchor="middle" class="node-title">Rspack Build</text>
+  <text x="590" y="232" text-anchor="middle" class="node-text">ES Modules</text>
+
+  <rect x="460" y="280" width="260" height="70" class="node"></rect>
+  <text x="590" y="310" text-anchor="middle" class="node-title">Upload Artifacts</text>
+  <text x="590" y="332" text-anchor="middle" class="node-text">Versioned CDN Assets</text>
+
+  <rect x="460" y="380" width="260" height="70" class="node"></rect>
+  <text x="590" y="410" text-anchor="middle" class="node-title">Release Metadata</text>
+  <text x="590" y="432" text-anchor="middle" class="node-text">App → URL mapping</text>
+
+  <!-- Column: CDN -->
+  <rect x="800" y="40" width="340" height="740" class="section"></rect>
+  <text x="820" y="70" class="section-title">CDN Storage</text>
+
+  <rect x="840" y="200" width="260" height="60" class="node"></rect>
+  <text x="970" y="225" text-anchor="middle" class="node-title">testApp1</text>
+  <text x="970" y="245" text-anchor="middle" class="node-text">main.js · hashed</text>
+
+  <rect x="840" y="280" width="260" height="60" class="node"></rect>
+  <text x="970" y="305" text-anchor="middle" class="node-title">testApp2</text>
+  <text x="970" y="325" text-anchor="middle" class="node-text">main.js · hashed</text>
+
+  <rect x="840" y="360" width="260" height="60" class="node"></rect>
+  <text x="970" y="385" text-anchor="middle" class="node-title">testApp3</text>
+  <text x="970" y="405" text-anchor="middle" class="node-text">main.js · hashed</text>
+
+  <rect x="840" y="460" width="260" height="60" class="node"></rect>
+  <text x="970" y="485" text-anchor="middle" class="node-title">React 19</text>
+  <text x="970" y="505" text-anchor="middle" class="node-text">External CDN</text>
+
+  <!-- Column: Browser -->
+  <rect x="1180" y="40" width="380" height="740" class="section"></rect>
+  <text x="1200" y="70" class="section-title">Browser Runtime</text>
+
+  <rect x="1220" y="240" width="300" height="80" class="node"></rect>
+  <text x="1370" y="270" text-anchor="middle" class="node-title">single-spa container</text>
+  <text x="1370" y="292" text-anchor="middle" class="node-text">Routing &amp; orchestration</text>
+
+  <rect x="1220" y="360" width="300" height="80" class="node"></rect>
+  <text x="1370" y="390" text-anchor="middle" class="node-title">Microfrontends</text>
+  <text x="1370" y="412" text-anchor="middle" class="node-text">Mounted on navigation</text>
+
+  <!-- Arrows -->
+  <!-- Monorepo → Build -->
+  <line x1="340" y1="150" x2="460" y2="215" class="arrow"></line>
+  <line x1="340" y1="230" x2="460" y2="215" class="arrow"></line>
+  <line x1="340" y1="310" x2="460" y2="215" class="arrow"></line>
+
+  <!-- Build → CDN -->
+  <line x1="720" y1="315" x2="840" y2="230" class="arrow"></line>
+  <line x1="720" y1="315" x2="840" y2="310" class="arrow"></line>
+  <line x1="720" y1="315" x2="840" y2="390" class="arrow"></line>
+
+  <!-- Browser loads from CDN -->
+  <line x1="1370" y1="280" x2="1100" y2="230" class="arrow"></line>
+  <line x1="1370" y1="280" x2="1100" y2="310" class="arrow"></line>
+  <line x1="1370" y1="280" x2="1100" y2="390" class="arrow"></line>
+  <line x1="1370" y1="280" x2="1100" y2="490" class="arrow"></line>
+</svg>
