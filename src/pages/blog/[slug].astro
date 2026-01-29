@@ -1,35 +1,39 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import MarkdownContent from '../../components/MarkdownContent.astro';
-import { getCollection } from 'astro:content';
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import { getCollection, render } from "astro:content";
 
 export const getStaticPaths = async () => {
-  const posts = await getCollection('blog');
+  const posts = await getCollection("blog");
   return posts.map((post) => ({
-    params: { slug: post.data.slug || post.id.split('/').pop()?.replace('.md', '') || '' },
+    params: {
+      slug:
+        post.data.slug || post.id.split("/").pop()?.replace(".md", "") || "",
+    },
     props: { post },
   }));
 };
 
 interface Props {
-  post: Awaited<ReturnType<typeof getCollection<'blog'>>>[number];
+  post: Awaited<ReturnType<typeof getCollection<"blog">>>[number];
 }
 
 const { post } = Astro.props;
+const { Content } = await render(post);
 
 // Format date for display
 const formatDate = (dateString: string | Date): string => {
-  const date = typeof dateString === 'string' ? new Date(dateString) : dateString;
-  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+  const date =
+    typeof dateString === "string" ? new Date(dateString) : dateString;
+  return date.toLocaleDateString("en-US", { month: "short", year: "numeric" });
 };
 
 const displayDate = formatDate(post.data.publishedAt);
 ---
 
-<Layout 
-  title={`${post.data.title} | Antonis Skandalis`} 
+<Layout
+  title={`${post.data.title} | Antonis Skandalis`}
   description={post.data.excerpt}
   type="article"
   publishedTime={new Date(post.data.publishedAt).toISOString()}
@@ -45,8 +49,17 @@ const displayDate = formatDate(post.data.publishedAt);
           tabindex="0"
           aria-label="Back to blog"
         >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
           Back to Blog
         </a>
@@ -55,31 +68,47 @@ const displayDate = formatDate(post.data.publishedAt);
 
     <article class="max-w-4xl mx-auto px-6 py-16">
       <div class="mb-8">
-        <span class="font-black bg-neutral-900 text-white px-4 py-2 border-2 border-black uppercase text-sm inline-block mb-4">
+        <span
+          class="font-black bg-neutral-900 text-white px-4 py-2 border-2 border-black uppercase text-sm inline-block mb-4"
+        >
           {displayDate}
         </span>
-        <h1 class="text-3xl sm:text-4xl md:text-5xl font-display font-black mb-6 leading-tight">{post.data.title}</h1>
-        <p class="text-xl font-bold border-l-4 border-black pl-4">{post.data.excerpt}</p>
+        <h1
+          class="text-3xl sm:text-4xl md:text-5xl font-display font-black mb-6 leading-tight"
+        >
+          {post.data.title}
+        </h1>
+        <p class="text-xl font-bold border-l-4 border-black pl-4">
+          {post.data.excerpt}
+        </p>
       </div>
 
       <div class="bg-white border-4 border-black p-8 shadow-brutal-md">
-        <MarkdownContent 
-          content={post.body} 
-          architectureImage={post.data.architectureImage}
-          architectureImageAlt={post.data.architectureImageAlt}
-          architectureImageCaption={post.data.architectureImageCaption}
-        />
+        <article
+          class="prose prose-lg max-w-none space-y-6 [&_pre]:bg-neutral-900 [&_pre]:text-white [&_pre]:border-4 [&_pre]:border-black [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:px-2 [&_code]:py-1 [&_code]:font-mono [&_code]:text-sm [&_img]:border-4 [&_img]:border-black"
+        >
+          <Content />
+        </article>
       </div>
 
       <div class="mt-12 text-center">
-        <a 
+        <a
           href="/blog"
           class="inline-flex items-center gap-2 px-8 py-4 bg-neutral-900 text-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
           tabindex="0"
           aria-label="Read more articles"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
           More Articles
         </a>

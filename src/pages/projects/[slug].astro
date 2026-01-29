@@ -2,22 +2,27 @@
 import Layout from "../../layouts/Layout.astro";
 import Header from "../../components/Header.astro";
 import Footer from "../../components/Footer.astro";
-import MarkdownContent from "../../components/MarkdownContent.astro";
-import { getCollection } from 'astro:content';
+import { getCollection, render } from "astro:content";
 
 export const getStaticPaths = async () => {
-  const projects = await getCollection('projects');
+  const projects = await getCollection("projects");
   return projects.map((project) => ({
-    params: { slug: project.data.slug || project.id.split('/').pop()?.replace('.md', '') || '' },
+    params: {
+      slug:
+        project.data.slug ||
+        project.id.split("/").pop()?.replace(".md", "") ||
+        "",
+    },
     props: { project },
   }));
 };
 
 interface Props {
-  project: Awaited<ReturnType<typeof getCollection<'projects'>>>[number];
+  project: Awaited<ReturnType<typeof getCollection<"projects">>>[number];
 }
 
 const { project } = Astro.props;
+const { Content } = await render(project);
 ---
 
 <Layout
@@ -124,14 +129,18 @@ const { project } = Astro.props;
         }
       </div>
 
-      {project.body && (
-        <div class="bg-white border-4 border-black p-8 shadow-brutal-md mb-8">
-          <h2 class="text-2xl font-display font-black uppercase mb-6">
-            Project Details
-          </h2>
-          <MarkdownContent content={project.body} />
-        </div>
-      )}
+      {
+        project.body && (
+          <div class="bg-white border-4 border-black p-8 shadow-brutal-md mb-8">
+            <h2 class="text-2xl font-display font-black uppercase mb-6">
+              Project Details
+            </h2>
+            <article class="prose prose-lg max-w-none space-y-6 [&_pre]:bg-neutral-900 [&_pre]:text-white [&_pre]:border-4 [&_pre]:border-black [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:bg-neutral-100 [&_code]:px-2 [&_code]:py-1 [&_code]:border [&_code]:border-black [&_code]:font-mono [&_code]:text-sm [&_img]:border-4 [&_img]:border-black [&_img]:shadow-brutal-md">
+              <Content />
+            </article>
+          </div>
+        )
+      }
 
       {
         project.data.highlights && project.data.highlights.length > 0 && (
