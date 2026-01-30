@@ -31,11 +31,11 @@ const {
 ---
 
 <section
-  class="min-h-screen flex items-center justify-center bg-neutral-50 border-b-4 border-black relative overflow-hidden"
+  class="min-h-0 flex flex-1 flex-col items-center justify-center bg-neutral-50 dark:bg-neutral-900 relative overflow-hidden py-4 sm:py-6"
 >
   <KeywordBackground />
 
-  <div class="max-w-5xl mx-auto px-6 text-center relative z-10 py-20">
+  <div class="max-w-5xl mx-auto px-6 text-center relative z-10 py-6 sm:py-10">
     <AvailabilityBadge show={showAvailableBadge} />
 
     <HeroTitle primaryText={title.primary} secondaryText={title.secondary} />
@@ -49,6 +49,6 @@ const {
       secondaryHref={cta.secondaryHref}
     />
 
-    <SocialLinks className="mt-12" />
+    <SocialLinks className="mt-6 sm:mt-8" />
   </div>
 </section>
