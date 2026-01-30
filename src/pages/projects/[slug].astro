@@ -30,12 +30,14 @@ const { Content } = await render(project);
   description={project.data.description}
 >
   <Header />
-  <main>
-    <nav class="bg-white border-b-4 border-black">
+  <main class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+    <nav
+      class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200/80 dark:border-neutral-700/80"
+    >
       <div class="max-w-4xl mx-auto px-4 sm:px-6 py-4">
         <a
           href="/projects"
-          class="inline-flex items-center gap-2 font-bold uppercase text-sm border-2 border-black bg-white px-4 py-2 shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+          class="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
           tabindex="0"
           aria-label="Back to projects"
         >
@@ -59,7 +61,7 @@ const { Content } = await render(project);
     <article class="max-w-4xl mx-auto px-6 py-16">
       <div class="mb-8">
         <h1
-          class="text-3xl sm:text-4xl md:text-5xl font-display font-black mb-6 leading-tight uppercase"
+          class="text-2xl sm:text-3xl font-semibold text-neutral-900 dark:text-neutral-100 mb-6 leading-tight"
         >
           {project.data.title}
         </h1>
@@ -68,26 +70,28 @@ const { Content } = await render(project);
           {
             project.data.tags &&
               project.data.tags.map((tag) => (
-                <span class="px-4 py-2 bg-neutral-900 text-white border-2 border-black font-black text-sm uppercase">
+                <span class="px-3 py-1.5 bg-neutral-50 dark:bg-neutral-700 border border-neutral-200 dark:border-neutral-600 rounded-lg font-medium text-xs text-neutral-600 dark:text-neutral-300">
                   {tag}
                 </span>
               ))
           }
         </div>
 
-        <p class="text-xl font-bold border-l-4 border-black pl-4 mb-6">
+        <p
+          class="text-neutral-600 dark:text-neutral-400 text-base leading-relaxed border-l-2 border-neutral-200 dark:border-neutral-600 pl-4 mb-6"
+        >
           {project.data.description}
         </p>
 
         {
           (project.data.liveUrl || project.data.githubUrl) && (
-            <div class="flex flex-wrap gap-4 mb-6">
+            <div class="flex flex-wrap gap-3 mb-6">
               {project.data.liveUrl && (
                 <a
                   href={project.data.liveUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-6 py-3 bg-neutral-900 text-white border-2 border-black font-black uppercase shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-accent-600 text-white text-sm font-medium rounded-xl shadow-accent hover:bg-accent-700 transition-colors"
                   aria-label="Visit live site"
                 >
                   <svg
@@ -111,7 +115,7 @@ const { Content } = await render(project);
                   href={project.data.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="inline-flex items-center gap-2 px-6 py-3 bg-white border-2 border-black font-black uppercase shadow-brutal hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 bg-neutral-800 text-white text-sm font-medium rounded-xl shadow-soft hover:bg-neutral-700 transition-colors"
                   aria-label="View on GitHub"
                 >
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -131,11 +135,11 @@ const { Content } = await render(project);
 
       {
         project.body && (
-          <div class="bg-white border-4 border-black p-8 shadow-brutal-md mb-8">
-            <h2 class="text-2xl font-display font-black uppercase mb-6">
+          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft mb-8 border border-transparent dark:border-neutral-700">
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-6">
               Project Details
             </h2>
-            <article class="prose prose-lg max-w-none space-y-6 [&_pre]:bg-neutral-900 [&_pre]:text-white [&_pre]:border-4 [&_pre]:border-black [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:bg-neutral-100 [&_code]:px-2 [&_code]:py-1 [&_code]:border [&_code]:border-black [&_code]:font-mono [&_code]:text-sm [&_img]:border-4 [&_img]:border-black [&_img]:shadow-brutal-md">
+            <article class="prose prose-neutral dark:prose-invert prose-lg max-w-none space-y-6 [&_pre]:bg-neutral-100 dark:[&_pre]:bg-neutral-700 [&_pre]:text-neutral-800 dark:[&_pre]:text-neutral-200 [&_pre]:border [&_pre]:border-neutral-200 dark:[&_pre]:border-neutral-600 [&_pre]:rounded-lg [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:bg-neutral-100 dark:[&_code]:bg-neutral-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-sm [&_img]:rounded-lg [&_img]:border [&_img]:border-neutral-200 dark:[&_img]:border-neutral-600">
               <Content />
             </article>
           </div>
@@ -144,14 +148,16 @@ const { Content } = await render(project);
 
       {
         project.data.highlights && project.data.highlights.length > 0 && (
-          <div class="bg-neutral-100 border-4 border-black p-8 shadow-brutal-md">
-            <h2 class="text-2xl font-display font-black uppercase mb-6">
+          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft border border-transparent dark:border-neutral-700">
+            <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-6">
               Key Achievements
             </h2>
-            <ul class="space-y-4">
+            <ul class="space-y-3">
               {project.data.highlights.map((highlight) => (
-                <li class="font-bold flex items-start gap-3 text-lg text-neutral-800">
-                  <span class="font-black text-2xl mt-0">→</span>
+                <li class="text-sm flex items-start gap-3 text-neutral-600 dark:text-neutral-400">
+                  <span class="text-neutral-400 dark:text-neutral-500 mt-0.5">
+                    →
+                  </span>
                   {highlight}
                 </li>
               ))}
@@ -160,15 +166,15 @@ const { Content } = await render(project);
         )
       }
 
-      <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center">
+      <div class="mt-12 flex flex-col sm:flex-row gap-3 justify-center">
         <a
           href="/projects"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-neutral-900 text-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 text-white text-sm font-medium rounded-xl shadow-soft hover:bg-neutral-700 transition-colors"
           tabindex="0"
           aria-label="View more projects"
         >
           <svg
-            class="w-5 h-5"
+            class="w-4 h-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -179,17 +185,17 @@ const { Content } = await render(project);
               stroke-width="2"
               d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
           </svg>
-          More Projects
+          More projects
         </a>
         <a
           href="/contact"
-          class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent-600 text-white text-sm font-medium rounded-xl shadow-accent hover:bg-accent-700 transition-colors"
           tabindex="0"
           aria-label="Get in touch"
         >
-          Work With Me
+          Work with me
           <svg
-            class="w-5 h-5"
+            class="w-4 h-4"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -198,11 +204,11 @@ const { Content } = await render(project);
               stroke-linecap="round"
               stroke-linejoin="round"
               stroke-width="2"
-              d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+              d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
           </svg>
         </a>
       </div>
     </article>
   </main>
-  <Footer />
+  <Footer compact />
 </Layout>

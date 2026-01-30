@@ -1,46 +1,74 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { PAGE_TITLES, META_DESCRIPTIONS } from '../lib/constants';
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
 ---
 
 <Layout title={PAGE_TITLES.notFound} description={META_DESCRIPTIONS.notFound}>
   <Header />
   <main>
-    <section class="min-h-screen flex items-center justify-center bg-neutral-50">
+    <section
+      class="min-h-screen flex items-center justify-center bg-neutral-50"
+    >
       <div class="max-w-2xl mx-auto px-6 text-center py-20">
-        <div class="bg-white border-4 border-black p-12 shadow-brutal-xl">
-          <h1 class="text-8xl md:text-9xl font-display font-black mb-6 transform -rotate-2">404</h1>
-          <p class="text-2xl font-black uppercase mb-4">Page Not Found</p>
-          <p class="font-bold text-lg text-neutral-700 mb-8">
+        <div class="bg-white rounded-2xl p-12 shadow-soft">
+          <h1 class="text-7xl md:text-8xl font-semibold text-neutral-200 mb-6">
+            404
+          </h1>
+          <p class="text-xl font-medium text-neutral-900 mb-2">
+            Page not found
+          </p>
+          <p class="text-neutral-600 text-sm mb-8">
             The page you're looking for doesn't exist or has been moved.
           </p>
-          
-          <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a 
+
+          <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a
               href="/"
-              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-neutral-900 text-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800 text-white text-sm font-medium rounded-xl shadow-soft hover:bg-neutral-700 transition-colors"
               tabindex="0"
               aria-label="Go to homepage"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                ></path>
               </svg>
-              Go Home
+              Go home
             </a>
-            <a 
+            <a
               href="/contact"
-              class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-4 border-black font-black uppercase shadow-brutal-md hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 bg-accent text-white text-sm font-medium rounded-xl shadow-accent hover:bg-accent-700 transition-colors"
               tabindex="0"
               aria-label="Contact me"
             >
-              Contact Me
+              Contact me
+              <svg
+                class="w-4 h-4"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
             </a>
           </div>
         </div>
       </div>
     </section>
   </main>
-  <Footer />
+  <Footer compact />
 </Layout>

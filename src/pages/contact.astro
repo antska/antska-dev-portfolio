@@ -5,51 +5,57 @@ import Footer from "../components/Footer.astro";
 import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
 ---
 
-<Layout
-  title={PAGE_TITLES.contact}
-  description={META_DESCRIPTIONS.contact}
->
+<Layout title={PAGE_TITLES.contact} description={META_DESCRIPTIONS.contact}>
   <Header />
-  <main>
-    <section class="min-h-screen py-24 bg-neutral-50">
+  <main class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+    <section class="py-24">
       <div class="max-w-2xl mx-auto px-6">
-        <h1
-          class="text-5xl md:text-6xl font-display font-black mb-16 text-center uppercase transform rotate-1"
+        <p
+          class="text-xs font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400 text-center mb-2"
         >
-          <span
-            class="bg-neutral-900 text-white border-4 border-black px-6 py-2 inline-block shadow-brutal-md"
-          >
-            Get in Touch
-          </span>
+          Contact
+        </p>
+        <h1
+          class="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 mb-16 text-center"
+        >
+          Get in touch
         </h1>
 
-        <div class="bg-white border-4 border-black p-8 shadow-brutal-xl">
+        <div
+          class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft border border-transparent dark:border-neutral-700"
+        >
           <form class="space-y-6" action="#" method="POST" id="contact-form">
             <div>
-              <label for="name" class="block font-black uppercase mb-3 text-sm"
-                >Name</label
+              <label
+                for="name"
+                class="block font-medium text-neutral-700 dark:text-neutral-300 mb-2 text-sm"
               >
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
                 name="name"
                 required
-                class="w-full bg-neutral-50 border-4 border-black px-4 py-3 font-bold focus:outline-none focus:bg-neutral-100 transition-colors"
+                class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg px-4 py-3 text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:focus:ring-neutral-600 focus:border-neutral-300 dark:focus:border-neutral-500 transition-colors"
                 placeholder="Your name"
                 tabindex="0"
               />
             </div>
 
             <div>
-              <label for="email" class="block font-black uppercase mb-3 text-sm"
-                >Email</label
+              <label
+                for="email"
+                class="block font-medium text-neutral-700 dark:text-neutral-300 mb-2 text-sm"
               >
+                Email
+              </label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 required
-                class="w-full bg-neutral-50 border-4 border-black px-4 py-3 font-bold focus:outline-none focus:bg-neutral-100 transition-colors"
+                class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg px-4 py-3 text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:focus:ring-neutral-600 focus:border-neutral-300 dark:focus:border-neutral-500 transition-colors"
                 placeholder="your@email.com"
                 tabindex="0"
               />
@@ -58,27 +64,29 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
             <div>
               <label
                 for="message"
-                class="block font-black uppercase mb-3 text-sm">Message</label
+                class="block font-medium text-neutral-700 dark:text-neutral-300 mb-2 text-sm"
               >
+                Message
+              </label>
               <textarea
                 id="message"
                 name="message"
                 rows="6"
                 required
-                class="w-full bg-neutral-50 border-4 border-black px-4 py-3 font-bold focus:outline-none focus:bg-neutral-100 transition-colors resize-none"
+                class="w-full bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-lg px-4 py-3 text-neutral-800 dark:text-neutral-100 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-neutral-200 dark:focus:ring-neutral-600 focus:border-neutral-300 dark:focus:border-neutral-500 transition-colors resize-none"
                 placeholder="What's on your mind? Tell me about your project, idea, or just say hello..."
                 tabindex="0"></textarea>
             </div>
 
             <button
               type="submit"
-              class="w-full bg-neutral-900 text-white border-4 border-black px-6 py-4 font-black uppercase shadow-brutal-md hover:translate-x-2 hover:translate-y-2 hover:shadow-none transition-all flex items-center justify-center gap-2 text-lg"
+              class="w-full bg-accent-600 text-white px-6 py-3 font-medium text-sm rounded-xl shadow-accent hover:bg-accent-700 transition-colors flex items-center justify-center gap-2"
               tabindex="0"
               aria-label="Send message"
             >
               Send Message
               <svg
-                class="w-5 h-5"
+                class="w-4 h-4"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -87,26 +95,27 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
                   stroke-linecap="round"
                   stroke-linejoin="round"
                   stroke-width="2"
-                  d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                ></path>
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
               </svg>
             </button>
           </form>
         </div>
 
         <div class="mt-12 text-center">
-          <p class="font-bold text-lg mb-2">Prefer email? Drop me a line at</p>
-          <p class="font-bold text-lg">
+          <p class="text-neutral-600 dark:text-neutral-400 text-sm mb-2">
+            Prefer email? Drop me a line at
+          </p>
+          <p class="text-neutral-900 dark:text-neutral-100 font-medium">
             <a
               href="mailto:ant.skandalis@gmail.com"
-              class="underline decoration-4 hover:bg-neutral-200 transition-colors text-xl"
+              class="underline decoration-4 hover:bg-neutral-200 dark:hover:bg-neutral-700 transition-colors text-xl"
               tabindex="0"
               aria-label="Send email to ant.skandalis@gmail.com"
             >
               ant.skandalis@gmail.com
             </a>
           </p>
-          <p class="font-semibold text-neutral-600 mt-4 text-sm">
+          <p class="text-neutral-500 dark:text-neutral-400 mt-4 text-sm">
             I usually respond within 24 hours. Unless I'm deep in a debugging
             session—then it might take a bit longer.
           </p>
@@ -118,7 +127,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
             href="https://github.com/antska"
             target="_blank"
             rel="noopener noreferrer"
-            class="p-4 bg-black text-white border-4 border-black hover:bg-white hover:text-black transition-all"
+            class="p-2.5 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
             aria-label="Visit GitHub profile"
             tabindex="0"
           >
@@ -132,7 +141,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
             href="https://linkedin.com/in/antskandalis"
             target="_blank"
             rel="noopener noreferrer"
-            class="p-4 bg-black text-white border-4 border-black hover:bg-white hover:text-black transition-all"
+            class="p-2.5 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
             aria-label="Visit LinkedIn profile"
             tabindex="0"
           >
@@ -144,7 +153,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
           </a>
           <a
             href="mailto:ant.skandalis@gmail.com"
-            class="p-4 bg-black text-white border-4 border-black hover:bg-white hover:text-black transition-all"
+            class="p-2.5 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition-colors"
             aria-label="Send email"
             tabindex="0"
           >
@@ -166,7 +175,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
       </div>
     </section>
   </main>
-  <Footer />
+  <Footer compact />
 </Layout>
 
 <script>

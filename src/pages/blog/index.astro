@@ -28,32 +28,19 @@ const formatDate = (dateString: string | Date): string => {
 
 <Layout title={PAGE_TITLES.blog} description={META_DESCRIPTIONS.blog}>
   <Header />
-  <main>
-    <section class="min-h-screen py-24 bg-white">
-      <div class="max-w-6xl mx-auto px-6">
-        <div class="flex items-center justify-center gap-4 mb-16">
-          <svg
-            class="w-12 h-12"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
-          </svg>
-          <h1
-            class="text-5xl md:text-6xl font-display font-black text-center uppercase"
-          >
-            <span
-              class="bg-neutral-900 text-white border-4 border-black px-6 py-2 inline-block shadow-brutal-md transform -rotate-1"
-            >
-              Technical Blog
-            </span>
-          </h1>
-        </div>
+  <main class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+    <section class="py-24">
+      <div class="max-w-3xl mx-auto px-6">
+        <p
+          class="text-xs font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400 text-center mb-2"
+        >
+          Blog
+        </p>
+        <h1
+          class="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 mb-16 text-center"
+        >
+          Technical articles
+        </h1>
 
         <div class="grid gap-8">
           {
@@ -64,7 +51,7 @@ const formatDate = (dateString: string | Date): string => {
                 post.id.split("/").pop()?.replace(/\.md$/, "") ??
                 "";
               return (
-                <article class="bg-neutral-50 border-4 border-black p-8 shadow-brutal-lg hover:shadow-brutal-xl transition-all cursor-pointer group">
+                <article class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-md transition-shadow cursor-pointer group border border-transparent dark:border-neutral-700">
                   <a
                     href={`/blog/${slug}`}
                     class="block"
@@ -72,22 +59,22 @@ const formatDate = (dateString: string | Date): string => {
                     aria-label={`Read article: ${post.data.title}`}
                   >
                     <div class="flex flex-wrap items-center gap-4 mb-4">
-                      <h2 class="text-2xl md:text-3xl font-display font-black flex-1 group-hover:underline decoration-4">
+                      <h2 class="text-xl font-semibold text-neutral-900 dark:text-neutral-100 flex-1 group-hover:text-neutral-700 dark:group-hover:text-neutral-300">
                         {post.data.title}
                       </h2>
-                      <span class="font-black bg-neutral-900 text-white px-4 py-2 border-2 border-black uppercase text-sm">
+                      <span class="text-xs font-medium text-neutral-500 dark:text-neutral-400">
                         {displayDate}
                       </span>
                     </div>
 
-                    <p class="font-bold mb-4 text-lg border-l-4 border-black pl-4 text-neutral-700">
+                    <p class="text-neutral-600 dark:text-neutral-400 text-sm leading-relaxed mb-4 border-l-2 border-neutral-200 dark:border-neutral-600 pl-4">
                       {post.data.excerpt}
                     </p>
 
-                    <div class="flex items-center gap-2 font-black uppercase text-sm mt-6 group-hover:translate-x-2 transition-transform">
-                      Read Article
+                    <div class="flex items-center gap-2 text-sm font-medium text-neutral-500 dark:text-neutral-400 group-hover:text-neutral-700 dark:group-hover:text-neutral-200 transition-colors mt-6">
+                      Read article
                       <svg
-                        class="w-4 h-4"
+                        class="w-4 h-4 group-hover:translate-x-0.5 transition-transform"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -109,5 +96,5 @@ const formatDate = (dateString: string | Date): string => {
       </div>
     </section>
   </main>
-  <Footer />
+  <Footer compact />
 </Layout>

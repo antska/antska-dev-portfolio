@@ -1,20 +1,55 @@
 ---
+interface Props {
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
-<footer class="py-8 bg-black text-white text-center border-t-4 border-black">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-      <p class="font-black uppercase tracking-wide">
-        © {currentYear} Antonis Skandalis - antska.dev - Built with Astro
-      </p>
+<footer
+  class:list={[
+    "border-t border-neutral-200/80 dark:border-neutral-700/80 bg-neutral-100 dark:bg-neutral-800/50 flex-shrink-0",
+    compact ? "py-3 px-4" : "py-12 px-6",
+  ]}
+>
+  <div class={compact ? "max-w-7xl mx-auto" : "max-w-7xl mx-auto px-6"}>
+    <div
+      class={`flex flex-col md:flex-row items-center justify-between ${compact ? "gap-3" : "gap-6"}`}
+    >
+      <div
+        class={`flex flex-col sm:flex-row items-center ${compact ? "gap-2 sm:gap-3" : "gap-4 sm:gap-6"}`}
+      >
+        <p
+          class={compact
+            ? "text-xs text-neutral-500 dark:text-neutral-400"
+            : "text-sm text-neutral-500 dark:text-neutral-400"}
+        >
+          © {currentYear} Antonis Skandalis
+        </p>
+        <div
+          class:list={[
+            "inline-flex items-center gap-2 bg-white/80 dark:bg-neutral-800/80 border border-neutral-200/80 dark:border-neutral-600/50 rounded-full shadow-soft text-neutral-600 dark:text-neutral-300",
+            compact ? "px-2.5 py-1 text-xs" : "px-4 py-2 text-sm",
+          ]}
+        >
+          <span class="relative flex h-1.5 w-1.5">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"
+            ></span>
+          </span>
+          Available for new projects
+        </div>
+      </div>
 
-      <div class="flex gap-4">
+      <div class={`flex ${compact ? "gap-1" : "gap-2"}`}>
         <a
           href="https://github.com/antska"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-2 border-2 border-white hover:bg-white hover:text-black transition-all"
+          class={`rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-white/60 dark:hover:bg-neutral-700/60 transition-colors ${compact ? "p-1.5" : "p-2.5"}`}
           aria-label="Visit GitHub profile"
           tabindex="0"
         >
@@ -28,7 +63,7 @@ const currentYear = new Date().getFullYear();
           href="https://linkedin.com/in/antskandalis"
           target="_blank"
           rel="noopener noreferrer"
-          class="p-2 border-2 border-white hover:bg-white hover:text-black transition-all"
+          class={`rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-white/60 dark:hover:bg-neutral-700/60 transition-colors ${compact ? "p-1.5" : "p-2.5"}`}
           aria-label="Visit LinkedIn profile"
           tabindex="0"
         >
@@ -40,7 +75,7 @@ const currentYear = new Date().getFullYear();
         </a>
         <a
           href="mailto:ant.skandalis@gmail.com"
-          class="p-2 border-2 border-white hover:bg-white hover:text-black transition-all"
+          class={`rounded-lg text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-200 hover:bg-white/60 dark:hover:bg-neutral-700/60 transition-colors ${compact ? "p-1.5" : "p-2.5"}`}
           aria-label="Send email"
           tabindex="0"
         >
