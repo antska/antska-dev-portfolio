@@ -1,10 +1,10 @@
 ---
 title: "Micro-frontends: What Worked, What Didn't, and Why We Still Use It"
 slug: "micro-frontends-pitfalls"
-excerpt: "We built a micro-frontend setup for 4+ teams. It has been running for 5 years, with thousands of independent deploys. Here is what we learned."
+excerpt: "We built a micro-frontend setup for 4+ teams. It has been running for years, with thousands of independent deploys. Here is what we learned."
 readTime: "6 min read"
 category: "React, CI/CD, Webpack"
-publishedAt: "2024-02-01"
+publishedAt: "2025-10-20"
 ---
 
 ## Why We Did It
@@ -224,18 +224,8 @@ const dependencyMap = {
 
 We use [import-map-overrides](https://github.com/single-spa/import-map-overrides) for local development.
 
-1. Run your app:
-
-```bash
-rush start --only testApp1
-```
-
-2. In the browser console, enable devtools:
-
-```bash
-localStorage.setItem('devtools', true)
-```
-
+1. Run your app: `rush start --only testApp1`
+2. In the browser console, enable devtools: `localStorage.setItem('devtools', true)`
 3. Override the import map so your app points to `http://localhost:3002/main.js`
 4. Refresh. You see your local changes.
 
@@ -291,4 +281,4 @@ You need to know what you are trading. And that the trade is worth it for your c
 5. **Build only what changed.** Saves time.
 6. **Import-map-overrides.** We could not do local development without it.
 
-This setup has been in production for 5 years. It is not perfect. But it solved our problem: many teams, independent deployments, shared components. If your situation is similar, you might find it useful too.
+This setup has been in production for 5+ years. It is not perfect. But it solved our problem: many teams, independent deployments, shared components. If your situation is similar, you might find it useful too.
