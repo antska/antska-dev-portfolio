@@ -1,107 +1,234 @@
 ---
+import ThemeToggle from "./ThemeToggle.astro";
 interface NavLink {
   label: string;
   href: string;
 }
 
 const navLinks: NavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'Contact', href: '/contact' },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Projects", href: "/projects" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const currentPath = Astro.url.pathname;
 
 const isActive = (href: string): boolean => {
-  if (href === '/') return currentPath === '/';
+  if (href === "/") return currentPath === "/";
   return currentPath.startsWith(href);
 };
 ---
 
-<header class="sticky top-0 bg-white border-b-4 border-black z-50" data-transition-name="header">
-  <nav class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
+<header
+  class="sticky top-0 bg-white/95 dark:bg-neutral-900/95 backdrop-blur-sm border-b border-neutral-200 dark:border-neutral-700 z-50"
+  data-transition-name="header"
+>
+  <nav
+    class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center"
+  >
     <!-- Logo -->
     <a
       href="/"
-      class="text-2xl font-display font-black uppercase tracking-tight bg-black text-white px-4 py-2 transform -rotate-1 hover:rotate-0 transition-transform"
+      class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
       aria-label="Go to homepage"
       tabindex="0"
     >
       antska.dev
     </a>
-    
+
     <!-- Desktop Navigation -->
-    <div class="hidden md:flex gap-2">
-      {navLinks.map((link) => (
-        <a 
-          href={link.href}
-          class={`px-4 py-2 font-bold uppercase text-sm border-2 border-black transition-all hover:translate-x-1 hover:translate-y-1 hover:shadow-none ${
-            isActive(link.href) 
-              ? 'bg-neutral-900 text-white shadow-brutal' 
-              : 'bg-white shadow-brutal'
-          }`}
-          aria-current={isActive(link.href) ? 'page' : undefined}
-          tabindex="0"
-        >
-          {link.label}
-        </a>
-      ))}
+    <div class="hidden md:flex items-center gap-1">
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+              isActive(link.href)
+                ? "text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800"
+                : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800"
+            }`}
+            aria-current={isActive(link.href) ? "page" : undefined}
+            tabindex="0"
+          >
+            {link.label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
     </div>
 
-    <!-- Mobile Menu Button -->
-    <button 
-      type="button"
-      id="mobile-menu-btn"
-      class="md:hidden p-2 border-2 border-black bg-white shadow-brutal active:translate-x-1 active:translate-y-1 active:shadow-none"
-      aria-label="Toggle mobile menu"
-      aria-expanded="false"
-      tabindex="0"
-    >
-      <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-      </svg>
-      <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
-  </nav>
-
-  <!-- Mobile Navigation -->
-  <div id="mobile-menu" class="hidden md:hidden bg-neutral-100 border-t-4 border-black">
-    {navLinks.map((link) => (
-      <a 
-        href={link.href}
-        class="block w-full text-left px-6 py-4 font-bold border-b-2 border-black hover:bg-neutral-200 transition-colors uppercase"
-        aria-current={isActive(link.href) ? 'page' : undefined}
+    <!-- Mobile: theme toggle + menu -->
+    <div class="md:hidden flex items-center gap-1">
+      <ThemeToggle />
+      <button
+        type="button"
+        id="mobile-menu-btn"
+        class="p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+        aria-label="Toggle mobile menu"
+        aria-expanded="false"
         tabindex="0"
       >
-        {link.label}
-      </a>
-    ))}
+        <svg
+          id="menu-icon"
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+        <svg
+          id="close-icon"
+          class="w-6 h-6 hidden"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile menu: full-height overlay sliding from the right (md:hidden) -->
+  <div
+    id="mobile-menu-backdrop"
+    class="mobile-menu-backdrop fixed inset-0 z-40 bg-black/30 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300 md:hidden"
+    aria-hidden="true"
+  >
   </div>
+  <div
+    id="mobile-menu"
+    class="mobile-menu fixed inset-0 z-50 w-full min-h-screen bg-white dark:bg-neutral-900 shadow-2xl md:hidden"
+    aria-hidden="true"
+  >
+    <div
+      class="flex flex-col h-full min-h-screen w-full bg-white dark:bg-neutral-900 pt-4 pb-8"
+    >
+      <div
+        class="flex items-center justify-between px-4 pb-4 border-b border-neutral-200 dark:border-neutral-700"
+      >
+        <a
+          href="/"
+          class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100"
+          aria-label="Go to homepage"
+        >
+          antska.dev
+        </a>
+        <button
+          type="button"
+          id="mobile-menu-close-btn"
+          class="p-2.5 rounded-full text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+          aria-label="Close menu"
+        >
+          <svg
+            class="w-6 h-6"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <nav class="flex-1 px-4 pt-6">
+        {
+          navLinks.map((link) => (
+            <a
+              href={link.href}
+              class={`block w-full text-left px-4 py-4 text-base font-medium rounded-lg transition-colors ${
+                isActive(link.href)
+                  ? "text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800"
+                  : "text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800"
+              }`}
+              aria-current={isActive(link.href) ? "page" : undefined}
+              tabindex="0"
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </div>
+
+  <script>
+    function setMobileMenuOpen(open: boolean) {
+      const menu = document.getElementById("mobile-menu");
+      const backdrop = document.getElementById("mobile-menu-backdrop");
+      const btn = document.getElementById("mobile-menu-btn");
+      const menuIcon = document.getElementById("menu-icon");
+      const closeIcon = document.getElementById("close-icon");
+      if (menu) {
+        menu.classList.toggle("open", open);
+        menu.setAttribute("aria-hidden", (!open).toString());
+      }
+      if (backdrop) {
+        backdrop.classList.toggle("open", open);
+        backdrop.setAttribute("aria-hidden", (!open).toString());
+      }
+      if (btn) btn.setAttribute("aria-expanded", open.toString());
+      if (menuIcon) menuIcon.classList.toggle("hidden", open);
+      if (closeIcon) closeIcon.classList.toggle("hidden", !open);
+    }
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Element;
+      if (target?.closest?.("#mobile-menu-close-btn")) {
+        setMobileMenuOpen(false);
+        return;
+      }
+      const btn = target?.closest?.("#mobile-menu-btn");
+      if (btn) {
+        const isExpanded = btn.getAttribute("aria-expanded") === "true";
+        setMobileMenuOpen(!isExpanded);
+        return;
+      }
+      if (target?.closest?.("#mobile-menu-backdrop")) {
+        setMobileMenuOpen(false);
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      const btn = (e.target as Element)?.closest?.("#mobile-menu-btn");
+      if (!btn) return;
+      if (e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      const isExpanded = btn.getAttribute("aria-expanded") === "true";
+      setMobileMenuOpen(!isExpanded);
+    });
+  </script>
 </header>
 
-<script>
-  const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-  const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
-  const closeIcon = document.getElementById('close-icon');
-
-  const handleToggleMenu = () => {
-    const isExpanded = mobileMenuBtn?.getAttribute('aria-expanded') === 'true';
-    mobileMenuBtn?.setAttribute('aria-expanded', (!isExpanded).toString());
-    mobileMenu?.classList.toggle('hidden');
-    menuIcon?.classList.toggle('hidden');
-    closeIcon?.classList.toggle('hidden');
-  };
-
-  mobileMenuBtn?.addEventListener('click', handleToggleMenu);
-  mobileMenuBtn?.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleToggleMenu();
-    }
-  });
-</script>
+<style>
+  .mobile-menu {
+    transform: translateX(100%);
+    transition: transform 0.3s ease-out;
+    background-color: #fff;
+  }
+  :global(.dark) .mobile-menu {
+    background-color: #171717;
+  }
+  .mobile-menu.open {
+    transform: translateX(0);
+  }
+  .mobile-menu-backdrop.open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+</style>
