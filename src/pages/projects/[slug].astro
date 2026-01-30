@@ -135,11 +135,11 @@ const { Content } = await render(project);
 
       {
         project.body && (
-          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft mb-8 border border-transparent dark:border-neutral-700">
+          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5 transition-all duration-200 ease-out mb-8 border border-transparent dark:border-neutral-700">
             <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-6">
               Project Details
             </h2>
-            <article class="prose prose-neutral dark:prose-invert prose-lg max-w-none space-y-6 [&_pre]:bg-neutral-100 dark:[&_pre]:bg-neutral-700 [&_pre]:text-neutral-800 dark:[&_pre]:text-neutral-200 [&_pre]:border [&_pre]:border-neutral-200 dark:[&_pre]:border-neutral-600 [&_pre]:rounded-lg [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:bg-neutral-100 dark:[&_code]:bg-neutral-700 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-sm [&_img]:rounded-lg [&_img]:border [&_img]:border-neutral-200 dark:[&_img]:border-neutral-600">
+            <article class="prose prose-neutral dark:prose-invert prose-lg max-w-none space-y-6 [&_pre]:!bg-neutral-800 [&_pre]:!text-neutral-100 dark:[&_pre]:!bg-neutral-100 dark:[&_pre]:!text-neutral-800 [&_pre]:border [&_pre]:border-neutral-700 dark:[&_pre]:border-neutral-300 [&_pre]:rounded-lg [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:!bg-neutral-800 [&_code]:!text-neutral-100 dark:[&_code]:!bg-neutral-100 dark:[&_code]:!text-neutral-800 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:rounded [&_code]:font-mono [&_code]:text-sm [&_img]:rounded-lg [&_img]:border [&_img]:border-neutral-200 dark:[&_img]:border-neutral-600">
               <Content />
             </article>
           </div>
@@ -148,7 +148,7 @@ const { Content } = await render(project);
 
       {
         project.data.highlights && project.data.highlights.length > 0 && (
-          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft border border-transparent dark:border-neutral-700">
+          <div class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5 transition-all duration-200 ease-out border border-transparent dark:border-neutral-700">
             <h2 class="text-lg font-semibold text-neutral-900 dark:text-neutral-100 mb-6">
               Key Achievements
             </h2>

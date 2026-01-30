@@ -51,7 +51,7 @@ const formatDate = (dateString: string | Date): string => {
                 post.id.split("/").pop()?.replace(/\.md$/, "") ??
                 "";
               return (
-                <article class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-md transition-shadow cursor-pointer group border border-transparent dark:border-neutral-700">
+                <article class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-200 ease-out cursor-pointer group border border-transparent dark:border-neutral-700">
                   <a
                     href={`/blog/${slug}`}
                     class="block"

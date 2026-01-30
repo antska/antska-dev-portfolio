@@ -38,7 +38,7 @@ const projects = (await getCollection("projects")).sort((a, b) => {
         <div class="grid md:grid-cols-2 gap-8">
           {
             projects.map((project) => (
-              <article class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-md transition-shadow group overflow-hidden relative border border-transparent dark:border-neutral-700">
+              <article class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-lg hover:-translate-y-1 transition-all duration-200 ease-out group overflow-hidden relative border border-transparent dark:border-neutral-700">
                 <a
                   href={`/projects/${project.data.slug}`}
                   class="block"
