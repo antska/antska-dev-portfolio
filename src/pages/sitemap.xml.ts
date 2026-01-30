@@ -17,14 +17,7 @@ const blogPosts = [
   '/blog/css-container-queries',
 ];
 
-const projects = [
-  '/projects/ecommerce-platform',
-  '/projects/analytics-dashboard',
-  '/projects/design-system',
-  '/projects/pwa-migration',
-];
-
-const allPages = [...staticPages, ...blogPosts, ...projects];
+const allPages = [...staticPages, ...blogPosts];
 
 export const GET: APIRoute = () => {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>

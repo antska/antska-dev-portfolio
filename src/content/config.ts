@@ -28,10 +28,13 @@ const projectsCollection = defineCollection({
     description: z.string(),
     tags: z.array(z.string()),
     highlights: z.array(z.string()).optional(),
+    website: z.union([z.string().url(), z.literal('')]).optional(),
     liveUrl: z.string().url().optional(),
     githubUrl: z.string().url().optional(),
     featured: z.boolean().optional().default(false),
     publishedAt: z.string().or(z.date()),
+    order: z.number().optional(),
+    inProgress: z.boolean().optional().default(false),
   }),
   transform: ({ data, id }) => ({
     ...data,
