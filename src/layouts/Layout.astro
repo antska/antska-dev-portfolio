@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 
 interface Props {
   title: string;
@@ -85,11 +85,11 @@ const articleSchema =
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts - Using a bold, geometric font for brutalist aesthetic -->
+    <!-- Fonts - Clean, minimal typography -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
 
@@ -137,11 +137,77 @@ const articleSchema =
 
     <title>{title}</title>
 
-    <!-- View Transitions -->
-    <ViewTransitions />
+    <!-- Prevent flash of wrong theme -->
+    <script is:inline>
+      (function () {
+        try {
+          const stored = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const dark = stored === "dark" || (!stored && prefersDark);
+          if (dark) document.documentElement.classList.add("dark");
+          else document.documentElement.classList.remove("dark");
+        } catch (e) {}
+      })();
+
+      function applyTheme() {
+        try {
+          const stored = localStorage.getItem("theme");
+          const prefersDark = window.matchMedia(
+            "(prefers-color-scheme: dark)",
+          ).matches;
+          const dark = stored === "dark" || (!stored && prefersDark);
+          if (dark) document.documentElement.classList.add("dark");
+          else document.documentElement.classList.remove("dark");
+        } catch (e) {}
+      }
+      // Re-apply theme after View Transitions swap or page load
+      document.addEventListener("astro:after-swap", applyTheme);
+      document.addEventListener("astro:page-load", applyTheme);
+    </script>
+
+    <!-- View Transitions (Astro 5+) -->
+    <ClientRouter />
   </head>
-  <body class="min-h-screen bg-neutral-50 text-black font-sans antialiased">
+  <body
+    class="min-h-screen bg-neutral-50 text-neutral-800 font-sans antialiased dark:bg-neutral-900 dark:text-neutral-200"
+  >
     <slot />
+
+    <!-- Theme toggle: event delegation so it works with multiple buttons and View Transitions -->
+    <script is:inline>
+      (function () {
+        var KEY = "theme";
+        var DARK = "dark";
+        var LIGHT = "light";
+        function setStored(value) {
+          try {
+            localStorage.setItem(KEY, value);
+          } catch (e) {}
+        }
+        function apply(value) {
+          var root = document.documentElement;
+          if (value === DARK) root.classList.add(DARK);
+          else root.classList.remove(DARK);
+          setStored(value);
+        }
+        function handleToggle() {
+          var isDark = document.documentElement.classList.contains(DARK);
+          apply(isDark ? LIGHT : DARK);
+        }
+        document.addEventListener("click", function (e) {
+          if (
+            e.target &&
+            e.target.closest &&
+            e.target.closest(".theme-toggle-btn")
+          ) {
+            e.preventDefault();
+            handleToggle();
+          }
+        });
+      })();
+    </script>
   </body>
 </html>
 
@@ -157,8 +223,8 @@ const articleSchema =
   }
 
   ::selection {
-    background-color: rgba(0, 0, 0, 0.9);
-    color: white;
+    background-color: rgba(0, 0, 0, 0.08);
+    color: inherit;
   }
 
   body {
@@ -171,45 +237,41 @@ const articleSchema =
   h4,
   h5,
   h6 {
-    font-family: "Archivo Black", "Space Grotesk", system-ui, sans-serif;
+    font-family: "Space Grotesk", system-ui, sans-serif;
+    font-weight: 600;
   }
 
-  /* View Transitions - Brutalist Style */
+  /* View Transitions - Minimal fade */
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 0.4s;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    animation-duration: 0.25s;
+    animation-timing-function: ease-out;
   }
 
-  /* Brutalist slide transition with opacity */
-  @keyframes brutal-slide-out {
+  @keyframes minimal-fade-out {
     from {
-      transform: translateX(0) scale(1);
       opacity: 1;
     }
     to {
-      transform: translateX(-30px) scale(0.98);
       opacity: 0;
     }
   }
 
-  @keyframes brutal-slide-in {
+  @keyframes minimal-fade-in {
     from {
-      transform: translateX(30px) scale(0.98);
       opacity: 0;
     }
     to {
-      transform: translateX(0) scale(1);
       opacity: 1;
     }
   }
 
   ::view-transition-old(root) {
-    animation-name: brutal-slide-out;
+    animation-name: minimal-fade-out;
   }
 
   ::view-transition-new(root) {
-    animation-name: brutal-slide-in;
+    animation-name: minimal-fade-in;
   }
 
   /* Header persistent transition - no animation */
@@ -243,31 +305,33 @@ const articleSchema =
     animation-duration: 0.4s;
   }
 
-  /* Brutalist loading indicator - top border */
-  @keyframes brutal-load-bar {
+  @keyframes minimal-load-bar {
     0% {
-      transform: translateX(-100%);
-    }
-    50% {
-      transform: translateX(0%);
+      transform: scaleX(0);
+      transform-origin: left;
     }
     100% {
-      transform: translateX(100%);
+      transform: scaleX(1);
+      transform-origin: left;
     }
   }
 
-  /* Loading bar during transition */
   html[data-transitioning]::after {
     content: "";
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 4px;
-    background: black;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.15),
+      transparent
+    );
     z-index: 10000;
     pointer-events: none;
-    animation: brutal-load-bar 0.4s ease-out;
+    animation: minimal-load-bar 0.25s ease-out;
   }
 </style>
 
@@ -303,6 +367,6 @@ const articleSchema =
     // Remove transitioning attribute after transition completes
     setTimeout(() => {
       document.documentElement.removeAttribute("data-transitioning");
-    }, 400);
+    }, 250);
   });
 </script>
