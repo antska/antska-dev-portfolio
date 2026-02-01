@@ -1,5 +1,5 @@
 ---
-title: "Micro-frontends: What Worked, What Didn't, and Why We Still Use It"
+title: "Running Micro-frontends with Single-SPA and Import Maps"
 slug: "micro-frontends-pitfalls"
 excerpt: "We built a micro-frontend setup for 4+ teams. It has been running for years, with thousands of independent deploys. Here is what we learned."
 readTime: "6 min read"
