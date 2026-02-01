@@ -73,7 +73,7 @@ export const VALUES: ValueItem[] = [
   {
     title: "Ownership & autonomy",
     description:
-      "My time and focus matter. I want to own the things I build and have a say in what I work on—not just execute someone else's backlog without input.",
+      "My time and focus matter. I want to own the things I build and have a say in what I work on, not just execute someone else's backlog without input.",
   },
   {
     title: "Show gratitude",
@@ -86,19 +86,9 @@ export const VALUES: ValueItem[] = [
       "I assume good intent and believe that hard problems can be solved with the right approach and collaboration. Constructive feedback and honest dialogue are part of that.",
   },
   {
-    title: "Reflect to unblock",
+    title: "Value over hours",
     description:
-      "I listen to my body and mind. When I'm not doing my best work, I step back, reflect, and return when I'm ready—rather than grinding through without clarity.",
-  },
-  {
-    title: "Remote-first & flexibility",
-    description:
-      "I prioritize my work environment over a fixed desk. Remote work and flexible schedules let me do my best work and live a balanced life.",
-  },
-  {
-    title: "Learn what I care about",
-    description:
-      "I want to grow in the areas that matter to me—craft, architecture, and product thinking—not only in whatever is prescribed by a role.",
+      "I believe the time I spend working is, at best, indirectly related to the value of what I create. I want to collaborate with others who are just as passionate about the work as I am.",
   },
 ];
 

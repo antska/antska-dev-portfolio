@@ -12,7 +12,7 @@ const experiences = await getCollection("experience");
 
 // Sort skills by order
 const sortedSkills = [...skills].sort(
-  (a, b) => (a.data.order || 0) - (b.data.order || 0),
+  (a, b) => (a.data.order || 0) - (b.data.order || 0)
 );
 
 // Sort experiences by order
@@ -37,7 +37,7 @@ const formatDate = (dateString: string) => {
 const formatPeriod = (
   startDate: string,
   endDate?: string,
-  isCurrent?: boolean,
+  isCurrent?: boolean
 ) => {
   const start = formatDate(startDate);
   const end = isCurrent ? "Present" : endDate ? formatDate(endDate) : "";
@@ -162,7 +162,7 @@ const backgroundParagraphs = about?.data.backgroundParagraphs ?? [];
                       {formatPeriod(
                         exp.data.startDate,
                         exp.data.endDate,
-                        exp.data.isCurrent,
+                        exp.data.isCurrent
                       )}
                     </span>
                   </div>
@@ -205,7 +205,7 @@ const backgroundParagraphs = about?.data.backgroundParagraphs ?? [];
           <p
             class="text-xs font-medium uppercase tracking-widest text-neutral-500 dark:text-neutral-400 text-center mb-2"
           >
-            Values
+            My Values
           </p>
           <h2
             class="text-2xl font-semibold text-neutral-900 dark:text-neutral-100 mb-4 text-center"
