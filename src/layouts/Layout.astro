@@ -143,7 +143,7 @@ const articleSchema =
         try {
           const stored = localStorage.getItem("theme");
           const prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)",
+            "(prefers-color-scheme: dark)"
           ).matches;
           const dark = stored === "dark" || (!stored && prefersDark);
           if (dark) document.documentElement.classList.add("dark");
@@ -155,7 +155,7 @@ const articleSchema =
         try {
           const stored = localStorage.getItem("theme");
           const prefersDark = window.matchMedia(
-            "(prefers-color-scheme: dark)",
+            "(prefers-color-scheme: dark)"
           ).matches;
           const dark = stored === "dark" || (!stored && prefersDark);
           if (dark) document.documentElement.classList.add("dark");
@@ -339,7 +339,7 @@ const articleSchema =
   // Set up header for persistent transition
   document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector(
-      'header[data-transition-name="header"]',
+      'header[data-transition-name="header"]'
     );
     if (header) {
       header.style.viewTransitionName = "header";
@@ -358,7 +358,7 @@ const articleSchema =
 
     // Update header transition name for persistence
     const header = document.querySelector(
-      'header[data-transition-name="header"]',
+      'header[data-transition-name="header"]'
     );
     if (header) {
       header.style.viewTransitionName = "header";
