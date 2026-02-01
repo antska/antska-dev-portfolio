@@ -27,13 +27,13 @@ const isActive = (href: string): boolean => {
 >
   <nav
     class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center"
+    aria-label="Main navigation"
   >
     <!-- Logo -->
     <a
       href="/"
-      class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors"
+      class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 rounded"
       aria-label="Go to homepage"
-      tabindex="0"
     >
       antska.dev
     </a>
@@ -44,13 +44,12 @@ const isActive = (href: string): boolean => {
         navLinks.map((link) => (
           <a
             href={link.href}
-            class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+            class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 ${
               isActive(link.href)
                 ? "text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800"
                 : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 hover:bg-neutral-50 dark:hover:bg-neutral-800"
             }`}
             aria-current={isActive(link.href) ? "page" : undefined}
-            tabindex="0"
           >
             {link.label}
           </a>
@@ -65,10 +64,10 @@ const isActive = (href: string): boolean => {
       <button
         type="button"
         id="mobile-menu-btn"
-        class="p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+        class="p-2 rounded-lg text-neutral-600 dark:text-neutral-400 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2"
         aria-label="Toggle mobile menu"
         aria-expanded="false"
-        tabindex="0"
+        aria-controls="mobile-menu"
       >
         <svg
           id="menu-icon"
@@ -111,6 +110,8 @@ const isActive = (href: string): boolean => {
     id="mobile-menu"
     class="mobile-menu fixed inset-0 z-50 w-full min-h-screen bg-white dark:bg-neutral-900 shadow-2xl md:hidden"
     aria-hidden="true"
+    aria-label="Mobile navigation"
+    role="dialog"
   >
     <div
       class="flex flex-col h-full min-h-screen w-full bg-white dark:bg-neutral-900 pt-4 pb-8"
@@ -168,6 +169,9 @@ const isActive = (href: string): boolean => {
   </div>
 
   <script>
+    const FOCUSABLE =
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
     function setMobileMenuOpen(open: boolean) {
       const menu = document.getElementById("mobile-menu");
       const backdrop = document.getElementById("mobile-menu-backdrop");
@@ -185,6 +189,35 @@ const isActive = (href: string): boolean => {
       if (btn) btn.setAttribute("aria-expanded", open.toString());
       if (menuIcon) menuIcon.classList.toggle("hidden", open);
       if (closeIcon) closeIcon.classList.toggle("hidden", !open);
+
+      if (open) {
+        const closeBtn = document.getElementById("mobile-menu-close-btn");
+        (closeBtn as HTMLElement | null)?.focus();
+      } else {
+        btn?.focus();
+      }
+    }
+
+    function trapFocus(e: KeyboardEvent) {
+      const menu = document.getElementById("mobile-menu");
+      if (!menu?.classList.contains("open")) return;
+      if (e.key !== "Tab") return;
+
+      const focusables = menu.querySelectorAll<HTMLElement>(FOCUSABLE);
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
     }
 
     document.addEventListener("click", (e) => {
@@ -206,11 +239,19 @@ const isActive = (href: string): boolean => {
 
     document.addEventListener("keydown", (e) => {
       const btn = (e.target as Element)?.closest?.("#mobile-menu-btn");
-      if (!btn) return;
-      if (e.key !== "Enter" && e.key !== " ") return;
-      e.preventDefault();
-      const isExpanded = btn.getAttribute("aria-expanded") === "true";
-      setMobileMenuOpen(!isExpanded);
+      if (btn && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        const isExpanded = btn.getAttribute("aria-expanded") === "true";
+        setMobileMenuOpen(!isExpanded);
+        return;
+      }
+      if (e.key === "Escape") {
+        const menu = document.getElementById("mobile-menu");
+        if (menu?.classList.contains("open")) {
+          setMobileMenuOpen(false);
+        }
+      }
+      trapFocus(e);
     });
   </script>
 </header>

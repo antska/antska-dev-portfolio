@@ -38,9 +38,11 @@ const displayDate = formatDate(post.data.publishedAt);
   type="article"
   publishedTime={new Date(post.data.publishedAt).toISOString()}
   author="Antonis Skandalis"
+  image={post.data.image ? `/blog-assets/${post.data.image}` : undefined}
+  imageAlt={post.data.title}
 >
   <Header />
-  <main class="min-h-screen bg-neutral-50 dark:bg-neutral-900">
+  <main id="main-content" class="min-h-screen bg-neutral-50 dark:bg-neutral-900" role="main">
     <nav
       class="bg-neutral-50 dark:bg-neutral-900 border-b border-neutral-200/80 dark:border-neutral-700/80"
     >
@@ -90,18 +92,17 @@ const displayDate = formatDate(post.data.publishedAt);
       <div
         class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft border border-transparent dark:border-neutral-700"
       >
-        <article
+        <div
           class="blog-prose prose prose-neutral dark:prose-invert prose-lg max-w-none space-y-6 [&_h2]:underline [&_pre]:!bg-neutral-800 [&_pre]:!text-neutral-100 [&_pre]:border [&_pre]:border-neutral-700 dark:[&_pre]:!bg-neutral-800 dark:[&_pre]:!text-neutral-100 dark:[&_pre]:border-neutral-700 [&_pre]:rounded-lg [&_pre]:p-6 [&_pre]:overflow-x-auto [&_pre]:my-6 [&_code]:px-1.5 [&_code]:py-0.5 [&_code]:font-mono [&_code]:text-sm [&_code]:!bg-neutral-800 [&_code]:!text-neutral-100 dark:[&_code]:!bg-neutral-100 dark:[&_code]:!text-neutral-900 dark:[&_pre_code]:!bg-transparent dark:[&_pre_code]:!text-neutral-100 [&_code]:rounded [&_img]:rounded-lg [&_img]:border [&_img]:border-neutral-200 dark:[&_img]:border-neutral-600"
         >
           <Content />
-        </article>
+        </div>
       </div>
 
       <div class="mt-12 text-center">
         <a
           href="/blog"
-          class="inline-flex items-center gap-2 px-6 py-3 bg-accent-600 text-white text-sm font-medium rounded-xl ring-0 shadow-none hover:bg-accent-700 transition-colors focus:ring-0 focus:ring-offset-0"
-          tabindex="0"
+          class="inline-flex items-center gap-2 px-6 py-3 bg-accent-600 text-white text-sm font-medium rounded-xl ring-0 shadow-none hover:bg-accent-700 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-neutral-500"
           aria-label="Read more articles"
         >
           <svg

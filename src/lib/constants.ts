@@ -150,3 +150,7 @@ export const PAGE_TITLES = {
   contact: "Contact | Antonis Skandalis",
   notFound: "404 - Page Not Found | Antonis Skandalis",
 };
+
+/** SEO keywords for meta tags — portfolio and senior FE focused */
+export const SEO_KEYWORDS =
+  "Antonis Skandalis, Senior Frontend Engineer, React developer, TypeScript, JavaScript, front-end engineer, web developer portfolio, React.js, Next.js, Vue.js, design systems, micro-frontends, performance optimization, Athens Greece, frontend portfolio";

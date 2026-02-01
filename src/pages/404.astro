@@ -5,9 +5,9 @@ import Footer from "../components/Footer.astro";
 import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
 ---
 
-<Layout title={PAGE_TITLES.notFound} description={META_DESCRIPTIONS.notFound}>
+<Layout title={PAGE_TITLES.notFound} description={META_DESCRIPTIONS.notFound} robots="noindex, nofollow">
   <Header />
-  <main>
+  <main id="main-content" role="main">
     <section
       class="min-h-screen flex items-center justify-center bg-neutral-50"
     >

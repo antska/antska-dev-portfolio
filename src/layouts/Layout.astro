@@ -1,24 +1,36 @@
 ---
 import { ClientRouter } from "astro:transitions";
+import { SEO_KEYWORDS } from "../lib/constants";
 
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
   type?: "website" | "article";
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  /** Comma-separated keywords; defaults to portfolio-focused SEO_KEYWORDS */
+  keywords?: string;
+  /** e.g. "index, follow" or "noindex, nofollow" for 404 */
+  robots?: string;
+  /** When true, injects WebSite + Person schema for homepage */
+  isHomepage?: boolean;
 }
 
 const {
   title,
   description = "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. Building scalable, performant web applications with modern JavaScript frameworks.",
   image = "/og-image.jpg",
+  imageAlt = "Antonis Skandalis - Senior Frontend Engineer",
   type = "website",
   publishedTime,
   modifiedTime,
   author = "Antonis Skandalis",
+  keywords = SEO_KEYWORDS,
+  robots = "index, follow",
+  isHomepage = false,
 } = Astro.props;
 
 const siteUrl = Astro.site || "https://antska.dev";
@@ -45,6 +57,22 @@ const personSchema = {
   ],
   description: description,
 };
+
+const websiteSchema = isHomepage
+  ? {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name: "Antonis Skandalis - Senior Frontend Engineer",
+      url: siteUrl,
+      description: description,
+      author: { "@type": "Person", name: "Antonis Skandalis" },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: { "@type": "EntryPoint", urlTemplate: `${siteUrl}/blog?q={search_term_string}` },
+        "query-input": "required name=search_term_string",
+      },
+    }
+  : null;
 
 const articleSchema =
   type === "article"
@@ -77,17 +105,28 @@ const articleSchema =
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content={robots} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL.href} />
+    <!-- Sitemap discovery -->
+    <link rel="sitemap" href="/sitemap-index.xml" />
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Fonts - Clean, minimal typography -->
+    <!-- Fonts - Preload CSS for faster LCP; display=swap avoids invisible text -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      as="style"
+    />
     <link
       href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
       rel="stylesheet"
@@ -99,7 +138,9 @@ const articleSchema =
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="antska.dev" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:site_name" content="Antonis Skandalis - antska.dev" />
+    <meta property="og:locale" content="en_GB" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -122,6 +163,12 @@ const articleSchema =
     {author && <meta property="article:author" content={author} />}
 
     <!-- Structured Data -->
+    {websiteSchema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(websiteSchema)}
+      />
+    )}
     <script
       type="application/ld+json"
       set:html={JSON.stringify(personSchema)}
@@ -173,6 +220,13 @@ const articleSchema =
   <body
     class="min-h-screen bg-neutral-50 text-neutral-800 font-sans antialiased dark:bg-neutral-900 dark:text-neutral-200"
   >
+    <!-- Skip to main content (WCAG 2.4.1 Bypass Blocks) -->
+    <a
+      href="#main-content"
+      class="skip-link fixed left-4 top-4 z-[100] rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white shadow-lg transition-all focus:left-4 focus:top-4 focus:no-underline focus:outline-none focus:ring-2 focus:ring-neutral-500 focus:ring-offset-2 dark:bg-white dark:text-neutral-900"
+    >
+      Skip to main content
+    </a>
     <slot />
 
     <!-- Theme toggle: event delegation so it works with multiple buttons and View Transitions -->
@@ -216,6 +270,24 @@ const articleSchema =
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+  }
+
+  /* Skip link: visually hidden until focused (WCAG 2.4.1) */
+  .skip-link {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+  }
+  .skip-link:focus {
+    clip: auto;
+    clip-path: none;
+    height: auto;
+    overflow: visible;
+    width: auto;
   }
 
   html {
@@ -338,7 +410,7 @@ const articleSchema =
 <script>
   // Set up header for persistent transition
   document.addEventListener("DOMContentLoaded", () => {
-    const header = document.querySelector(
+    const header = document.querySelector<HTMLElement>(
       'header[data-transition-name="header"]'
     );
     if (header) {
@@ -357,7 +429,7 @@ const articleSchema =
     window.scrollTo({ top: 0, behavior: "instant" });
 
     // Update header transition name for persistence
-    const header = document.querySelector(
+    const header = document.querySelector<HTMLElement>(
       'header[data-transition-name="header"]'
     );
     if (header) {
