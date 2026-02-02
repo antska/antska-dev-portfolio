@@ -342,11 +342,18 @@ const articleSchema =
     font-weight: 600;
   }
 
-  /* View Transitions - Minimal fade */
+  /* View Transitions - Snappy 120ms fade (was 250ms + 400ms group = laggy) */
   ::view-transition-old(root),
   ::view-transition-new(root) {
-    animation-duration: 0.25s;
+    animation-duration: 0.12s;
     animation-timing-function: ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation-duration: 0s;
+    }
   }
 
   @keyframes minimal-fade-out {
@@ -401,9 +408,15 @@ const articleSchema =
     view-transition-name: header;
   }
 
-  /* Transition group container */
+  /* Transition group - match root duration so nothing drags */
   ::view-transition-group(root) {
-    animation-duration: 0.4s;
+    animation-duration: 0.12s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    ::view-transition-group(root) {
+      animation-duration: 0s;
+    }
   }
 
   @keyframes minimal-load-bar {
@@ -432,7 +445,13 @@ const articleSchema =
     );
     z-index: 10000;
     pointer-events: none;
-    animation: minimal-load-bar 0.25s ease-out;
+    animation: minimal-load-bar 0.12s ease-out;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html[data-transitioning]::after {
+      animation-duration: 0s;
+    }
   }
 </style>
 
@@ -468,6 +487,6 @@ const articleSchema =
     // Remove transitioning attribute after transition completes
     setTimeout(() => {
       document.documentElement.removeAttribute("data-transitioning");
-    }, 250);
+    }, 150);
   });
 </script>
