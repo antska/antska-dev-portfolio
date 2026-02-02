@@ -22,7 +22,7 @@ interface Props {
 const {
   title,
   description = "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. Building scalable, performant web applications with modern JavaScript frameworks.",
-  image = "/og-image.jpg",
+  image = "/og-image.png",
   imageAlt = "Antonis Skandalis - Senior Frontend Engineer",
   type = "website",
   publishedTime,
@@ -36,6 +36,7 @@ const {
 const siteUrl = Astro.site || "https://antska.dev";
 const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 const ogImage = new URL(image, siteUrl).href;
+const ogImageFallback = new URL("/og-image-2.png", siteUrl).href;
 
 // Structured Data (JSON-LD)
 const personSchema = {
@@ -138,6 +139,7 @@ const articleSchema =
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
+    <meta property="og:image" content={ogImageFallback} />
     <meta property="og:image:alt" content={imageAlt} />
     <meta property="og:site_name" content="Antonis Skandalis - antska.dev" />
     <meta property="og:locale" content="en_GB" />
@@ -148,6 +150,7 @@ const articleSchema =
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     <meta name="twitter:creator" content="@antska" />
 
     {
