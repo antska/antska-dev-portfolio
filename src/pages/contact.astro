@@ -226,7 +226,14 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
     history.replaceState(null, "", window.location.pathname);
   }
 
-  // Submit via fetch so we can redirect to #success (hash is never sent in POST, so Netlify redirect drops it)
+  // Netlify Forms expect POST to site root with application/x-www-form-urlencoded (not /contact/ or FormData)
+  const encodeFormData = (data: Record<string, string>) =>
+    Object.keys(data)
+      .map(
+        (key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+      )
+      .join("&");
+
   const contactForm = document.getElementById(
     "contact-form"
   ) as HTMLFormElement | null;
@@ -241,9 +248,16 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
           submitButton.textContent = "Sending…";
         }
         const formData = new FormData(contactForm);
-        const response = await fetch("/contact/", {
+        const data: Record<string, string> = {
+          "form-name": "contact-form",
+        };
+        formData.forEach((value, key) => {
+          if (typeof value === "string") data[key] = value;
+        });
+        const response = await fetch("/", {
           method: "POST",
-          body: formData,
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: encodeFormData(data),
         });
         if (response.ok) {
           window.location.href = "/contact/#success";
