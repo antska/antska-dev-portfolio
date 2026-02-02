@@ -7,7 +7,11 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
 
 <Layout title={PAGE_TITLES.contact} description={META_DESCRIPTIONS.contact}>
   <Header />
-  <main id="main-content" class="min-h-screen bg-neutral-50 dark:bg-neutral-900" role="main">
+  <main
+    id="main-content"
+    class="min-h-screen bg-neutral-50 dark:bg-neutral-900"
+    role="main"
+  >
     <section class="py-24">
       <div class="max-w-2xl mx-auto px-6">
         <p
@@ -24,7 +28,14 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
         <div
           class="bg-white dark:bg-neutral-800 rounded-2xl p-8 shadow-soft hover:shadow-soft-lg hover:-translate-y-0.5 transition-all duration-200 ease-out border border-transparent dark:border-neutral-700"
         >
-          <form class="space-y-6" action="#" method="POST" id="contact-form">
+          <form
+            class="space-y-6"
+            action="#"
+            method="POST"
+            id="contact-form"
+            name="contact-form"
+            data-netlify="true"
+          >
             <div>
               <label
                 for="name"
@@ -182,7 +193,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
   const handleSubmit = (e: Event) => {
     e.preventDefault();
     alert(
-      "Thanks for reaching out! I'll get back to you soon. Looking forward to connecting.",
+      "Thanks for reaching out! I'll get back to you soon. Looking forward to connecting."
     );
     form.reset();
   };
