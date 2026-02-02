@@ -260,7 +260,13 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
           body: encodeFormData(data),
         });
         if (response.ok) {
-          window.location.href = "/contact/#success";
+          if (submitButton) {
+            submitButton.removeAttribute("disabled");
+            submitButton.textContent = originalText;
+          }
+          showSuccessBanner();
+          contactForm.reset();
+          history.replaceState(null, "", "/contact/#success");
           return;
         }
         throw new Error("Form submission failed");
