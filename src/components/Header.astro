@@ -32,6 +32,7 @@ const isActive = (href: string): boolean => {
     <!-- Logo -->
     <a
       href="/"
+      data-astro-prefetch="load"
       class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100 hover:text-neutral-600 dark:hover:text-neutral-300 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 rounded"
       aria-label="Go to homepage"
     >
@@ -44,6 +45,7 @@ const isActive = (href: string): boolean => {
         navLinks.map((link) => (
           <a
             href={link.href}
+            data-astro-prefetch="load"
             class={`px-4 py-2 text-sm font-medium rounded-lg transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-500 focus-visible:ring-offset-2 ${
               isActive(link.href)
                 ? "text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800"
@@ -121,6 +123,7 @@ const isActive = (href: string): boolean => {
       >
         <a
           href="/"
+          data-astro-prefetch="load"
           class="text-xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-100"
           aria-label="Go to homepage"
         >
@@ -152,6 +155,7 @@ const isActive = (href: string): boolean => {
           navLinks.map((link) => (
             <a
               href={link.href}
+              data-astro-prefetch="load"
               class={`block w-full text-left px-4 py-4 text-base font-medium rounded-lg transition-colors ${
                 isActive(link.href)
                   ? "text-neutral-900 dark:text-neutral-100 bg-neutral-100 dark:bg-neutral-800"
