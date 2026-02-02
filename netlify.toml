@@ -5,12 +5,6 @@
 [build.environment]
   NODE_VERSION = "20"
 
-# Redirects for SPA-style routing (optional, Astro handles this)
-[[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
-
 # Headers for better security and caching
 # Cache-Control on HTML lets prefetched pages be reused on nav = instant feel
 # (_astro/* and /fonts/* override with their own Cache-Control below)

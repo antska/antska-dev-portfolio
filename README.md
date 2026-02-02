@@ -1,168 +1,117 @@
-# antska.dev Personal Portfolio
+# antska.dev — Personal Portfolio
 
-A modern, fast, and brutalist-styled developer portfolio built with **Astro**, **React**, **TypeScript**, and **Sanity CMS**.
+A fast, accessible developer portfolio built with **Astro**, **TypeScript**, and **Tailwind CSS**. Content is managed via **Astro Content Collections** (Markdown + JSON); no CMS required.
 
-## 🚀 Features
+## Features
 
-- **⚡ Lightning Fast** - Built with Astro for optimal performance and minimal JavaScript
-- **🎨 Brutalist Design** - Bold, raw, and unapologetic aesthetic
-- **📱 Fully Responsive** - Mobile-first design that works on all devices
-- **🔍 SEO Optimized** - Meta tags, structured data, and sitemap generation
-- **♿ Accessible** - WCAG compliant with proper ARIA labels and keyboard navigation
-- **📝 CMS Integration** - Content managed through Sanity Studio
-- **🎭 Smooth Transitions** - Astro View Transitions for seamless navigation
-- **🌙 Dark Theme** - Modern dark color scheme with high contrast
+- **Fast** — Static HTML, minimal JS, Astro View Transitions for smooth navigation
+- **Prefetch + cache** — Main nav links prefetched so navigation feels instant after first load
+- **Responsive** — Mobile-first layout
+- **SEO** — Meta tags, JSON-LD (Person, WebSite, Article), sitemap
+- **Accessible** — Semantic HTML, ARIA where needed, keyboard-friendly
+- **Dark theme** — High-contrast dark color scheme
+- **Content Collections** — Blog, projects, experience, skills, and about content in `src/content/`
 
-## 🛠️ Tech Stack
+## Tech stack
 
-- **[Astro](https://astro.build/)** - Static site generator
-- **[React](https://react.dev/)** - UI components
-- **[TypeScript](https://www.typescriptlang.org/)** - Type safety
-- **[Tailwind CSS](https://tailwindcss.com/)** - Utility-first styling
-- **[Sanity CMS](https://www.sanity.io/)** - Headless content management
-- **[Vite](https://vitejs.dev/)** - Build tool
+- **[Astro](https://astro.build/)** — Static site generator, View Transitions
+- **[TypeScript](https://www.typescriptlang.org/)** — Type safety
+- **[Tailwind CSS](https://tailwindcss.com/)** — Styling
+- **[Vite](https://vitejs.dev/)** — Build tool (via Astro)
 
-## 📦 Project Structure
+## Project structure
 
 ```
 antska-dev-portfolio/
-├── public/              # Static assets
-├── sanity/              # Sanity CMS configuration
-│   ├── schemas/        # Content schemas
-│   └── scripts/        # Import/utility scripts
+├── public/                 # Static assets (favicon, OG images, robots.txt)
 ├── src/
-│   ├── components/     # Reusable Astro components
-│   ├── layouts/        # Page layouts
-│   ├── lib/            # Utilities and constants
-│   ├── pages/          # Route pages
-│   └── styles/         # Global styles
+│   ├── components/          # Astro components (Header, Footer, Hero, etc.)
+│   ├── content/            # Content Collections
+│   │   ├── about/          # About page data (JSON)
+│   │   ├── blog/           # Blog posts (Markdown)
+│   │   ├── experience/     # Experience entries (Markdown)
+│   │   ├── projects/       # Projects (Markdown)
+│   │   └── skills/         # Skills (Markdown)
+│   ├── layouts/            # Layout.astro
+│   ├── lib/                # constants.ts, keywords.ts
+│   ├── pages/              # Routes (index, about, projects, blog, contact, 404)
+│   └── styles/             # Global CSS (e.g. hero-animations.css)
+├── astro.config.mjs
+├── tailwind.config.mjs
+├── netlify.toml            # Netlify build + headers
+├── vercel.json             # Vercel headers (optional)
 └── package.json
 ```
 
-## 🏃 Getting Started
+## Getting started
 
 ### Prerequisites
 
 - Node.js 18+ and npm
-- A Sanity account (optional, for CMS features)
 
-### Installation
+### Install and run
 
-1. **Clone the repository**
+1. **Clone and install**
 
    ```bash
-   git clone https://github.com/yourusername/antska-dev-portfolio.git
+   git clone https://github.com/antska/antska-dev-portfolio.git
    cd antska-dev-portfolio
-   ```
-
-2. **Install dependencies**
-
-   ```bash
    npm install
    ```
 
-3. **Set up environment variables**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit `.env` and add your Sanity project ID:
-
-   ```env
-   PUBLIC_SANITY_PROJECT_ID=your_project_id
-   PUBLIC_SANITY_DATASET=production
-   ```
-
-4. **Start development server**
-   ```bash
-   npm run dev
-   ```
-   Open [http://localhost:4321](http://localhost:4321)
-
-### Sanity Studio Setup
-
-1. **Install Sanity dependencies**
-
-   ```bash
-   cd sanity
-   npm install
-   ```
-
-2. **Start Sanity Studio**
+2. **Start dev server**
 
    ```bash
    npm run dev
    ```
 
-   Open [http://localhost:3333](http://localhost:3333)
+   Open [http://localhost:4321](http://localhost:4321).
 
-3. **Import default data** (optional)
-   ```bash
-   npm run import
-   ```
+No environment variables are required for local development. Optional env vars can be added via `.env` (see `.env.example`).
 
-## 📜 Available Scripts
+## Scripts
 
-### Root Directory
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Start Astro dev server   |
+| `npm run start`   | Dev server with `--host` |
+| `npm run build`   | Production build         |
+| `npm run preview` | Preview production build |
 
-- `npm run dev` - Start Astro dev server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run sanity` - Start Sanity Studio
+## Customization
 
-### Sanity Directory
+- **Hero** — `src/lib/constants.ts` (e.g. `HERO_TITLE`, `HERO_DESCRIPTION`, `HERO_CTA`, `VALUES`)
+- **About** — `src/content/about/about.json` and/or defaults in `constants.ts`
+- **Projects** — Add or edit Markdown files in `src/content/projects/`
+- **Blog** — Add or edit Markdown in `src/content/blog/`
+- **Experience** — `src/content/experience/*.md`
+- **Skills** — `src/content/skills/*.md`
+- **Styling** — `tailwind.config.mjs` and `src/styles/`
 
-- `npm run dev` - Start Sanity Studio
-- `npm run build` - Build Sanity Studio
-- `npm run deploy` - Deploy Sanity Studio
-- `npm run import` - Import default data
-
-## 🎨 Customization
-
-### Update Personal Information
-
-- **Hero Section**: Edit `src/lib/constants.ts` → `HERO_DESCRIPTION`, `HERO_TITLE`
-- **About Page**: Manage through Sanity Studio or edit `src/lib/constants.ts` → `DEFAULT_ABOUT`
-- **Projects**: Add/edit in Sanity Studio or `src/lib/constants.ts` → `DEFAULT_PROJECTS`
-- **Skills**: Manage in Sanity Studio or `src/lib/constants.ts` → `DEFAULT_SKILLS`
-
-### Styling
-
-The project uses Tailwind CSS with a custom brutalist theme. Main styles are defined in:
-
-- `tailwind.config.mjs` - Tailwind configuration
-- `src/styles/` - Global CSS files
-
-## 🚢 Deployment
-
-### Vercel (Recommended)
-
-1. Push your code to GitHub
-2. Import repository in [Vercel](https://vercel.com)
-3. Add environment variables
-4. Deploy!
+## Deployment
 
 ### Netlify
 
-1. Push your code to GitHub
-2. Connect repository in [Netlify](https://netlify.com)
-3. Add environment variables
-4. Deploy!
+1. Connect the repo to Netlify.
+2. Build command: `npm run build`
+3. Publish directory: `dist`
+4. Optional: set `NODE_VERSION=20` in build environment (see `netlify.toml`).
 
-### Manual Build
+### Vercel
+
+1. Import the repo in [Vercel](https://vercel.com).
+2. Framework preset: Astro (or auto-detected).
+3. Optional: use `vercel.json` for security and cache headers.
+
+### Manual
 
 ```bash
 npm run build
 ```
 
-The `dist/` folder contains your static site ready to deploy.
+Deploy the generated `dist/` folder to any static host.
 
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## 👤 Author
+## Author
 
 **Antonis Skandalis**
 
@@ -170,12 +119,10 @@ This project is open source and available under the [MIT License](LICENSE).
 - LinkedIn: [@antskandalis](https://linkedin.com/in/antskandalis)
 - GitHub: [@antska](https://github.com/antska)
 
-## 🙏 Acknowledgments
+## License
 
-- [Astro](https://astro.build/) for the amazing framework
-- [Sanity](https://www.sanity.io/) for the headless CMS
-- [Tailwind CSS](https://tailwindcss.com/) for the utility-first CSS framework
+MIT (see [LICENSE](LICENSE)).
 
 ---
 
-Built with ❤️ using Astro
+Built with [Astro](https://astro.build/)
