@@ -39,7 +39,7 @@ export interface Project {
 
 // Hero Section
 export const HERO_DESCRIPTION =
-  "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. I build websites, web apps, and custom software for businesses and startups. Based in Paros, Greece — available for remote work worldwide.";
+  "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. I build websites, web apps, and custom software for businesses and startups. Based in Paros, Greece - available for remote work worldwide.";
 
 export const HERO_TITLE = {
   primary: "ANTONIS",
@@ -133,24 +133,24 @@ export const NAVIGATION_CARDS = {
 
 // Meta Descriptions (Antonis Skandalis first for name search; hire-intent + Paros for local/service)
 export const META_DESCRIPTIONS = {
-  home: "Antonis Skandalis — Web & app developer in Paros, Greece. Hire a Senior Frontend Engineer for websites, web apps, and custom software. React, TypeScript, full-stack. Remote work available.",
+  home: "Antonis Skandalis - Web & app developer in Paros, Greece. Hire a Senior Frontend Engineer for websites, web apps, and custom software. React, TypeScript, full-stack. Remote work available.",
   about:
-    "Antonis Skandalis — Senior Frontend Engineer based in Paros, Greece. Background, skills, and experience. Hire for websites, web apps, React, TypeScript. Available for remote projects.",
+    "Antonis Skandalis - Senior Frontend Engineer based in Paros, Greece. Background, skills, and experience. Hire for websites, web apps, React, TypeScript. Available for remote projects.",
   projects:
-    "Antonis Skandalis — Portfolio of websites and web apps. Senior Frontend Engineer in Paros, Greece. React, Vue, Node.js, TypeScript. Hire for your next project.",
-  blog: "Antonis Skandalis — Technical blog on web development, React, performance, and engineering. Senior Frontend Engineer, Paros, Greece.",
+    "Antonis Skandalis - Portfolio of websites and web apps. Senior Frontend Engineer in Paros, Greece. React, Vue, Node.js, TypeScript. Hire for your next project.",
+  blog: "Antonis Skandalis - Technical blog on web development, React, performance, and engineering. Senior Frontend Engineer, Paros, Greece.",
   contact:
-    "Hire Antonis Skandalis — Get in touch for websites, web apps, or custom software. Web developer in Paros, Greece. Remote work available.",
+    "Hire Antonis Skandalis - Get in touch for websites, web apps, or custom software. Web developer in Paros, Greece. Remote work available.",
   notFound: "The page you're looking for doesn't exist.",
 };
 
 // Page Titles (name first for "Antonis Skandalis" search; role + location for discovery)
 export const PAGE_TITLES = {
   home: "Antonis Skandalis | Web Developer | Paros, Greece",
-  about: "Antonis Skandalis | About — Web Developer, Paros, Greece",
-  projects: "Antonis Skandalis | Projects — Web & App Developer",
-  blog: "Antonis Skandalis | Blog — Web Development",
-  contact: "Antonis Skandalis | Contact — Hire Web Developer, Paros",
+  about: "Antonis Skandalis | About - Web Developer, Paros, Greece",
+  projects: "Antonis Skandalis | Projects - Web & App Developer",
+  blog: "Antonis Skandalis | Blog - Web Development",
+  contact: "Antonis Skandalis | Contact - Hire Web Developer, Paros",
   notFound: "404 - Page Not Found | Antonis Skandalis",
 };
 

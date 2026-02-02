@@ -12,12 +12,15 @@
   status = 404
 
 # Headers for better security and caching
+# Cache-Control on HTML lets prefetched pages be reused on nav = instant feel
+# (_astro/* and /fonts/* override with their own Cache-Control below)
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+    Cache-Control = "public, max-age=300, stale-while-revalidate=60"
 
 [[headers]]
   for = "/_astro/*"
