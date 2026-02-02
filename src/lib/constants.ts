@@ -133,7 +133,7 @@ export const NAVIGATION_CARDS = {
 
 // Meta Descriptions (Antonis Skandalis first for name search; hire-intent + Paros for local/service)
 export const META_DESCRIPTIONS = {
-  home: "Antonis Skandalis - Web & app developer in Paros, Greece. Hire a Senior Frontend Engineer for websites, web apps, and custom software. React, TypeScript, full-stack. Remote work available.",
+  home: "Antonis Skandalis - Web developer in Paros, Greece. Hire a Senior Frontend Engineer for websites, web apps, and custom software. React, TypeScript, full-stack. Remote work available.",
   about:
     "Antonis Skandalis - Senior Frontend Engineer based in Paros, Greece. Background, skills, and experience. Hire for websites, web apps, React, TypeScript. Available for remote projects.",
   projects:
@@ -148,7 +148,7 @@ export const META_DESCRIPTIONS = {
 export const PAGE_TITLES = {
   home: "Antonis Skandalis | Web Developer | Paros, Greece",
   about: "Antonis Skandalis | About - Web Developer, Paros, Greece",
-  projects: "Antonis Skandalis | Projects - Web & App Developer",
+  projects: "Antonis Skandalis | Projects - Web Developer",
   blog: "Antonis Skandalis | Blog - Web Development",
   contact: "Antonis Skandalis | Contact - Hire Web Developer, Paros",
   notFound: "404 - Page Not Found | Antonis Skandalis",
