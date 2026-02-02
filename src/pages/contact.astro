@@ -30,12 +30,24 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
         >
           <form
             class="space-y-6"
-            action="#"
+            action="/contact/#success"
             method="POST"
             id="contact-form"
             name="contact-form"
             data-netlify="true"
+            netlify-honeypot="bot-field"
           >
+            <input type="hidden" name="form-name" value="contact-form" />
+            <p class="hidden" aria-hidden="true">
+              <label for="contact-bot">Leave this empty</label>
+              <input
+                type="text"
+                id="contact-bot"
+                name="bot-field"
+                tabindex="-1"
+                autocomplete="off"
+              />
+            </p>
             <div>
               <label
                 for="name"
@@ -188,15 +200,18 @@ import { PAGE_TITLES, META_DESCRIPTIONS } from "../lib/constants";
 </Layout>
 
 <script>
-  const form = document.getElementById("contact-form") as HTMLFormElement;
-
-  const handleSubmit = (e: Event) => {
-    e.preventDefault();
-    alert(
-      "Thanks for reaching out! I'll get back to you soon. Looking forward to connecting."
-    );
-    form.reset();
-  };
-
-  form?.addEventListener("submit", handleSubmit);
+  // Show thank-you message when redirected back after successful submit (Netlify redirects to action URL)
+  const hash = typeof window !== "undefined" ? window.location.hash : "";
+  if (hash === "#success") {
+    const banner = document.createElement("div");
+    banner.setAttribute("role", "status");
+    banner.setAttribute("aria-live", "polite");
+    banner.className =
+      "mb-6 rounded-xl bg-accent-50 dark:bg-accent-900/20 border border-accent-200 dark:border-accent-800 px-6 py-4 text-accent-800 dark:text-accent-200 text-sm font-medium";
+    banner.textContent = "Thanks for reaching out! I'll get back to you soon.";
+    const form = document.getElementById("contact-form");
+    form?.insertAdjacentElement("beforebegin", banner);
+    // Clear hash so refreshing doesn't show the message again
+    history.replaceState(null, "", window.location.pathname);
+  }
 </script>
