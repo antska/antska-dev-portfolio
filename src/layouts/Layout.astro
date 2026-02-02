@@ -21,9 +21,9 @@ interface Props {
 
 const {
   title,
-  description = "Senior Frontend Engineer specializing in React & TypeScript, with full-stack capabilities. Building scalable, performant web applications with modern JavaScript frameworks.",
+  description = "Antonis Skandalis — Web & app developer in Paros, Greece. Hire a Senior Frontend Engineer for websites, web apps, and custom software. React, TypeScript, full-stack. Remote work available.",
   image = "/og-image.png",
-  imageAlt = "Antonis Skandalis - Senior Frontend Engineer",
+  imageAlt = "Antonis Skandalis — Web & App Developer, Paros, Greece",
   type = "website",
   publishedTime,
   modifiedTime,
@@ -38,38 +38,54 @@ const canonicalURL = new URL(Astro.url.pathname, siteUrl);
 const ogImage = new URL(image, siteUrl).href;
 const ogImageFallback = new URL("/og-image-2.png", siteUrl).href;
 
-// Structured Data (JSON-LD)
+// Structured Data (JSON-LD) — name + location for "Antonis Skandalis" and "web developer Paros/Greece"
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Antonis Skandalis",
+  alternateName: "antska",
   jobTitle: "Senior Frontend Engineer",
+  description:
+    "Web and app developer based in Paros, Greece. Builds websites, web applications, and custom software. React, TypeScript, full-stack. Available for hire remotely.",
   url: siteUrl,
+  image: ogImage,
   sameAs: ["https://github.com/antska", "https://linkedin.com/in/antskandalis"],
   knowsAbout: [
     "React",
     "TypeScript",
+    "Web Development",
     "Frontend Development",
     "Full-Stack Development",
     "Micro-frontends",
     "Design Systems",
-    "Web development",
     "Web Performance",
+    "Custom Web Applications",
   ],
-  description: description,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Paros",
+    addressRegion: "Cyclades",
+    addressCountry: "GR",
+  },
+  areaServed: { "@type": "Country", name: "Greece" },
+  availableLanguage: ["Greek", "English", "French"],
 };
 
 const websiteSchema = isHomepage
   ? {
       "@context": "https://schema.org",
       "@type": "WebSite",
-      name: "Antonis Skandalis - Senior Frontend Engineer",
+      name: "Antonis Skandalis — Web & App Developer, Paros, Greece",
       url: siteUrl,
       description: description,
       author: { "@type": "Person", name: "Antonis Skandalis" },
+      inLanguage: "en",
       potentialAction: {
         "@type": "SearchAction",
-        target: { "@type": "EntryPoint", urlTemplate: `${siteUrl}/blog?q={search_term_string}` },
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteUrl}/blog?q={search_term_string}`,
+        },
         "query-input": "required name=search_term_string",
       },
     }
@@ -109,8 +125,16 @@ const articleSchema =
     <meta name="keywords" content={keywords} />
     <meta name="robots" content={robots} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#fafafa" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#171717" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="theme-color"
+      content="#fafafa"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#171717"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <!-- Canonical URL -->
     <link rel="canonical" href={canonicalURL.href} />
@@ -166,12 +190,14 @@ const articleSchema =
     {author && <meta property="article:author" content={author} />}
 
     <!-- Structured Data -->
-    {websiteSchema && (
-      <script
-        type="application/ld+json"
-        set:html={JSON.stringify(websiteSchema)}
-      />
-    )}
+    {
+      websiteSchema && (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(websiteSchema)}
+        />
+      )
+    }
     <script
       type="application/ld+json"
       set:html={JSON.stringify(personSchema)}
